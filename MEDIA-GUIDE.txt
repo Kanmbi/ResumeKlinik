@@ -1,0 +1,104 @@
+RÉSUMÉKLINIK WEBSITE — MEDIA GUIDE
+==================================
+How it works: put a file in the right folder with the EXACT name below.
+The website finds it automatically. If a file is missing, the site
+simply hides that spot or uses a built-in design, so nothing breaks.
+
+Names must match exactly: lowercase, hyphens, no spaces, correct extension.
+Keep images under 500 KB and videos under 8 MB so the site stays fast
+(free tools: squoosh.app for images, handbrake.fr for video).
+
+------------------------------------------------------------------
+FOLDER: assets/media/brand/
+------------------------------------------------------------------
+logo.png                 Header logo, transparent background. (Included,
+                         made from your official logo.) 600 x 214 px.
+logo-white.png           Footer logo, white version for dark backgrounds.
+                         (Included.) 600 x 214 px.
+logo-full.png            Full logo with tagline and shapes. (Included.)
+icon-512.png             Stethoscope icon used for the company avatar.
+                         Square 512 x 512 px. (Included.)
+og-image.jpg             Preview image when your link is shared on WhatsApp,
+                         LinkedIn, X. 1200 x 630 px. (Included; replace anytime.)
+app-icon.png             Phone home-screen icon. 180 x 180 px. (Included.)
+talents-klinik-logo.png  Talents Klinik logo, transparent. (Included.)
+
+------------------------------------------------------------------
+FOLDER: assets/media/photos/
+------------------------------------------------------------------
+founder.jpg              Your portrait. Homepage and About page.
+                         Portrait 4:5, 1200 x 1500 px. (Included.)
+hero.jpg                 OPTIONAL homepage photo that replaces the portrait.
+                         Portrait 4:5, 1200 x 1500 px.
+founder-intro-poster.jpg Still image shown before the intro video plays.
+                         Landscape 16:9, 1920 x 1080 px.
+
+------------------------------------------------------------------
+FOLDER: assets/media/video/
+------------------------------------------------------------------
+hero-video.mp4           OPTIONAL silent looping clip on the homepage, shown
+                         in place of the photo. Portrait 4:5, 1080 x 1350 px,
+                         MP4 (H.264), 6–15 seconds, no sound needed, under 8 MB.
+                         Ideas: you reviewing a CV, a client handshake, laptop work.
+founder-intro.mp4        OPTIONAL "Meet the founder" video on the About page,
+                         with sound and play controls. Landscape 16:9,
+                         1920 x 1080 px, MP4 (H.264), 30–90 seconds, under 25 MB.
+                         (The About section appears automatically once added.)
+
+------------------------------------------------------------------
+FOLDER: assets/media/samples/
+------------------------------------------------------------------
+cv-before.jpg            OPTIONAL real "before" CV for the drag slider on the
+cv-after.jpg             homepage. Both the SAME size: portrait 3:4,
+                         1200 x 1600 px, top of page one. ANONYMISE: remove
+                         names, phone numbers, emails and employer names
+                         unless the client has agreed in writing.
+                         (If missing, a built-in example is shown.)
+
+------------------------------------------------------------------
+FOLDER: assets/media/testimonials/
+------------------------------------------------------------------
+any-name.jpg             OPTIONAL client headshots. Square, 400 x 400 px.
+                         Then write the file name in config.js next to the
+                         review, e.g.  photo: "tunde-a.jpg"
+                         Only use photos with the client's permission.
+
+------------------------------------------------------------------
+FOLDER: assets/media/clients/
+------------------------------------------------------------------
+client-01.png ...        OPTIONAL logos for "Our clients have been hired at".
+                         Transparent PNG, about 300 x 120 px.
+                         List them in config.js under clientLogos.
+                         Only use logos where you can back up the claim.
+
+------------------------------------------------------------------
+FOLDER: assets/media/docs/
+------------------------------------------------------------------
+services-brochure.pdf    OPTIONAL downloads on Services and About pages.
+cv-checklist.pdf         A download card appears only when the file exists.
+sample-cv.pdf            PDF, A4, under 5 MB. Change titles in config.js.
+
+------------------------------------------------------------------
+FOLDER: assets/media/insights/
+------------------------------------------------------------------
+any-name.jpg             OPTIONAL cover images for Insights posts.
+                         Landscape 16:9, 1600 x 900 px, under 400 KB.
+                         Then write the file name in posts.js, e.g. image: "ats.jpg"
+                         (No image? A branded cover is generated automatically.)
+
+------------------------------------------------------------------
+LINKEDIN POSTS AND ARTICLES (Insights page)
+------------------------------------------------------------------
+Edit assets/js/posts.js in Notepad. Instructions are at the top.
+author: "founder" for your personal posts, "company" for RésuméKlinik.
+
+------------------------------------------------------------------
+FAVICON (browser tab icon)
+------------------------------------------------------------------
+favicon.png in the main folder. Square 64 x 64 px. (Included.)
+
+------------------------------------------------------------------
+TEXT, PRICES, REVIEWS, NUMBERS
+------------------------------------------------------------------
+Edit assets/js/config.js in Notepad: founder name and LinkedIn link,
+WhatsApp number, email, social links, prices, packages, stats, testimonials, client logos, downloads.

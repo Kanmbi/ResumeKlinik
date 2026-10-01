@@ -1,0 +1,6 @@
+# One Netlify site serves the RésuméKlinik website (root) and the
+# Talents Klinik platform (/talentsklinik). Routing lives in _redirects,
+# headers in _headers.
+[build]
+  publish = "."
+  functions = "netlify/functions"

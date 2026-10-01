@@ -1,0 +1,77 @@
+TALENTS KLINIK PLATFORM — SETUP GUIDE
+=====================================
+This app now lives in the talentsklinik/ folder of the RésuméKlinik
+website repo (Kanmbi/ResumeKlinik) and is served by the same Netlify site
+at resumeklinik.com/talentsklinik. Netlify rebuilds whenever GitHub changes.
+
+The app works in three stages. Each one switches on more features.
+
+  Stage 1  Upload only            Guest mode. Profile, personality test,
+                                  learning plan, certificates, matching
+                                  opt-in all work (saved on the device).
+  Stage 2  + AI key on Netlify    CV review, skill gaps, role suggestions,
+                                  cover letters, LinkedIn optimiser, AI coach.
+  Stage 3  + Supabase             Real member accounts, saved securely online,
+                                  password reset, and your matching pool list.
+
+------------------------------------------------------------------
+STAGE 1 — DEPLOY (see READ-ME-FIRST.txt in the main folder)
+------------------------------------------------------------------
+The Netlify site must be connected to the GitHub repo (not drag-and-drop),
+otherwise the AI function in netlify/functions/ai.js is not deployed.
+Visit resumeklinik.com/talentsklinik to check.
+
+------------------------------------------------------------------
+STAGE 2 — SWITCH ON THE AI (10 minutes)
+------------------------------------------------------------------
+1. Go to console.anthropic.com, create an account, add billing credit,
+   then API Keys > Create key. Copy the key (starts with sk-ant-).
+   Set a monthly spending limit under Settings > Limits.
+2. Go to Netlify > your resumeklinik.com site > Site configuration >
+   Environment variables. Add:
+      Name: ANTHROPIC_API_KEY     Value: (paste the key)
+3. Deploys > Trigger deploy > Deploy site.
+NEVER paste the key into any file in this folder or on GitHub.
+
+Optional variables:
+   AI_MODEL       claude-haiku-4-5-20251001 (default, lowest cost)
+                  or claude-sonnet-5 (higher quality, higher cost)
+   REQUIRE_AUTH   "false" lets guests use AI even after Supabase is on.
+                  Leave it unset to keep AI for signed-in members only.
+
+------------------------------------------------------------------
+STAGE 3 — SWITCH ON MEMBER ACCOUNTS (20 minutes)
+------------------------------------------------------------------
+1. Go to supabase.com, create a free account and a new project
+   (region: closest to Nigeria, e.g. Europe West). Save the database password.
+2. SQL Editor > New query > paste everything from supabase-setup.sql > Run.
+3. Authentication > URL Configuration:
+      Site URL:       https://resumeklinik.com/talentsklinik
+      Redirect URLs:  https://resumeklinik.com/talentsklinik
+4. Project Settings > API. Copy the Project URL and the "anon public" key.
+5. On GitHub, open talentsklinik/assets/config.js > pencil icon. Paste them between the
+   quotes for supabaseUrl and supabaseAnonKey. Commit changes.
+6. On Netlify, add two more Environment variables with the same values:
+      SUPABASE_URL        SUPABASE_ANON_KEY
+   Then trigger a new deploy.
+7. Optional: Authentication > Email Templates, add your branding.
+   For many sign-ups, connect a custom email sender (SMTP) in
+   Authentication > Settings, as the free sender is rate-limited.
+
+------------------------------------------------------------------
+SEEING WHO WANTS TO BE MATCHED
+------------------------------------------------------------------
+Supabase > Table Editor > matching_pool. It lists every member who opted
+in, with course, class of degree, NYSC status, CV score, availability and
+contact details. Export to CSV with the "Export" button.
+
+------------------------------------------------------------------
+WHERE THINGS LIVE  (paths from the main folder)
+------------------------------------------------------------------
+talentsklinik/index.html            The app page
+talentsklinik/assets/app.js         All app features
+talentsklinik/assets/app.css        App layout (uses base.css, the RésuméKlinik design)
+talentsklinik/assets/config.js      Your public settings (Supabase, WhatsApp, email)
+talentsklinik/supabase-setup.sql    Database tables and privacy rules
+netlify/functions/ai.js             Secure AI connection (runs on Netlify, holds no keys)
+_redirects                          Sends /talentsklinik/api/ai to the AI function

@@ -1,0 +1,35 @@
+RÉSUMÉKLINIK + TALENTS KLINIK — ONE FOLDER, ONE SITE
+====================================================
+This folder holds both projects and deploys as a single Netlify site:
+
+  /                     RésuméKlinik website (index.html, about.html, ...)
+  /talentsklinik        Talents Klinik platform (talentsklinik/ folder)
+  /talentsklinik/api/ai Secure AI endpoint (netlify/functions/ai.js)
+  /waitlist             Talents Klinik waitlist page
+
+The old separate Vercel project (talentsklinik.vercel.app) is no longer
+needed once this is live.
+
+HOW TO GO LIVE
+1. Netlify > resumeklinik.com site > Site configuration > Build & deploy >
+   Link repository: choose GitHub > Kanmbi/ResumeKlinik, branch main.
+   Leave the build command empty; netlify.toml sets everything else.
+   (Drag-and-drop uploads do NOT deploy the AI function, so use GitHub.)
+2. Open assets/js/config.js in the GitHub editor:
+   - paste your personal LinkedIn link next to   linkedin: ""   under founder
+   - add prices if you want them shown (blank shows "Request a quote")
+3. Open assets/js/posts.js and paste in your LinkedIn posts
+   (instructions at the top of that file).
+4. Optional: add photos, videos and PDFs (see MEDIA-GUIDE.txt).
+5. Netlify > Forms: turn on form detection. Then add email notifications
+   for each form:
+   - resumeklinik-enquiry   (consultation bookings)
+   - newsletter             (email subscribers)
+   - employer-interest      (Talents Klinik employers)
+   - talentsklinik-waitlist (Talents Klinik waitlist, same name as before)
+6. Talents Klinik AI and member accounts: follow
+   talentsklinik/SETUP-GUIDE.txt (Stages 2 and 3).
+
+After going live, test: the contact form, newsletter sign-up, Insights
+reader, /waitlist, /talentsklinik (and its AI CV review) and the WhatsApp
+buttons.

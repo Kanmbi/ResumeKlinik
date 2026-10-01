@@ -1,0 +1,11 @@
+# Talents Klinik platform (lives in the talentsklinik/ folder)
+/talentsklinik/api/ai  /.netlify/functions/ai                  200
+
+# Talents Klinik waitlist (page included in this folder)
+/waitlist            /talentsklinik-waitlist.html              200
+/WAITLIST            /talentsklinik-waitlist.html              200
+
+# Old or alternative links
+/pricing             /services#pricing                         301
+/blog                /insights                                 301
+/index.html          /                                         301
