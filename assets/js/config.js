@@ -53,7 +53,7 @@ window.RK_CONFIG = {
       id: "cv-writing",
       name: "CV Essentials",
       description: "A rewritten, ATS-friendly CV for professionals ready to apply.",
-      price: "",
+      price: "25,000",
       unit: "per CV",
       features: [
         "Full CV rewrite from your career history",
