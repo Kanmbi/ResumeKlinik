@@ -80,7 +80,7 @@ window.RK_CONFIG = {
       id: "executive",
       name: "Executive Branding",
       description: "For senior moves into Big 4, multinational and C-suite roles.",
-      price: "",
+      price: "150,000",
       features: [
         "Executive CV and leadership narrative",
         "Executive summary",
