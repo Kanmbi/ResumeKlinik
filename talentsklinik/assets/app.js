@@ -65,7 +65,7 @@
 
   /* ---------------- Helpers ---------------- */
   function toast(t) { var el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('show'); }, 2600); }
-  function wa(text) { return 'https://wa.me/' + C.whatsapp + '?text=' + encodeURIComponent(text || 'Hello Talents Klinik, I need some help with the platform.'); }
+  function wa(text) { if (!text && C.whatsappLink) return C.whatsappLink; return 'https://wa.me/' + C.whatsapp + '?text=' + encodeURIComponent(text || 'Hello Talents Klinik, I need some help with the platform.'); }
   function fmt(d) { if (!d) return ''; var x = new Date(d); return x.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
   function firstName() { return (S.data.profile.firstName || '').trim() || (S.user && S.user.email ? S.user.email.split('@')[0] : 'there'); }
   function initials() { var p = S.data.profile; var s = ((p.firstName || '')[0] || '') + ((p.lastName || '')[0] || ''); return (s || (S.user ? S.user.email[0] : 'G')).toUpperCase(); }

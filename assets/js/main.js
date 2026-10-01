@@ -13,6 +13,8 @@
   var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 
   function wa(text) {
+    // A WhatsApp Business "message" link cannot carry pre-filled text, so it is used only for plain buttons.
+    if (!text && C.whatsappLink) return C.whatsappLink;
     return 'https://wa.me/' + (C.whatsapp || '') + '?text=' + encodeURIComponent(text || 'Hello RésuméKlinik, I would like to enquire about your services.');
   }
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }

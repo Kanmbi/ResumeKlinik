@@ -18,11 +18,12 @@ window.RK_CONFIG = {
   founder: {
     name: "Mayowa Olusesi",
     title: "Founder & Principal Consultant",
-    linkedin: ""
+    linkedin: "https://www.linkedin.com/in/olusesimayowabastu"
   },
 
   /* ---- Contact details ---- */
-  whatsapp: "2348081688328",          // Country code + number, no + or spaces
+  whatsapp: "2348081688328",          // Country code + number, no + or spaces (used when a message is pre-filled)
+  whatsappLink: "https://wa.me/message/7ADQUNJIY4NDB1", // WhatsApp Business link for plain "Chat on WhatsApp" buttons
   email: "resumeklinik@gmail.com",
   cvFormUrl: "https://bit.ly/CVKlinik",
   location: "Lagos, Nigeria",
@@ -38,10 +39,10 @@ window.RK_CONFIG = {
   /* ---- Numbers shown in the dark stats band ----
      count: true makes the number animate upwards. */
   stats: [
-    { value: 500,  suffix: "+", label: "CVs transformed",       count: true  },
-    { value: 98,   suffix: "%", label: "Client satisfaction",   count: true  },
-    { value: 8,    suffix: "",  label: "Industries served",     count: true  },
-    { value: 2020, suffix: "",  label: "Helping careers since",  count: false }
+    { value: 500,  suffix: "+", label: "CVs transformed",            count: true  },
+    { value: 2018, suffix: "",  label: "Helping careers since",      count: false },
+    { value: 7,    suffix: "+", label: "Years inside HR and consulting", count: true },
+    { value: 12,   suffix: "",  label: "Sectors served",             count: true  }
   ],
 
   /* ---- Packages on the Services page and homepage ----

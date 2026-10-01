@@ -16,5 +16,6 @@ window.TK_CONFIG = {
   base: "/talentsklinik",
   siteUrl: "https://resumeklinik.com",
   whatsapp: "2348081688328",
+  whatsappLink: "https://wa.me/message/7ADQUNJIY4NDB1",
   email: "resumeklinik@gmail.com"
 };
