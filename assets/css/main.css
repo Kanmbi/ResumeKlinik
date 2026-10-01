@@ -222,6 +222,8 @@ p{margin:0 0 1rem}
 
 /* ---------- Pricing ---------- */
 .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.pricing>*{min-width:0}
+.plan .btn{white-space:normal}
 .plan{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:32px;display:flex;flex-direction:column}
 .plan.featured{border:2px solid var(--navy-700);box-shadow:var(--shadow-lg)}
 .plan .ribbon{position:absolute;top:-13px;left:32px;background:var(--navy-700);color:#fff;font-size:.75rem;font-weight:700;padding:5px 12px;border-radius:999px}

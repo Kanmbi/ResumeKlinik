@@ -10,7 +10,7 @@
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
 
   var AUTH = {
-    founder: { name: F.name || 'Founder', img: MEDIA + 'photos/founder.jpg', cls: '', link: F.linkedin },
+    founder: { name: F.name || 'Founder', img: MEDIA + 'photos/founder-avatar.jpg', cls: '', link: F.linkedin },
     company: { name: 'RésuméKlinik', img: MEDIA + 'brand/icon-512.png', cls: 'lg', link: (C.socials || {}).linkedin }
   };
   function fmtDate(d) {

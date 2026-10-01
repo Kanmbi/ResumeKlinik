@@ -1,4 +1,4 @@
-/* Talents Klinik app — builds on base.css (RésuméKlinik design system) */
+/* Talents Klinik app — builds on /assets/css/main.css (the RésuméKlinik design system) */
 body.app{background:var(--gray-50);min-height:100vh}
 .boot{position:fixed;inset:0;display:grid;place-items:center;background:#fff;z-index:500;transition:opacity .3s}
 .boot img{width:200px;animation:pulse 1.4s ease-in-out infinite}
@@ -144,7 +144,7 @@ a.tile:hover{border-color:var(--gray-400);box-shadow:var(--shadow-sm)}
 .tags span.lime{background:var(--lime-50);color:var(--lime-600)}
 
 /* Inputs */
-.dropzone{border:2px dashed var(--gray-200);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--gray-50)}
+.dropzone{display:block;border:2px dashed var(--gray-200);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--gray-50)}
 .dropzone:hover,.dropzone.drag{border-color:var(--lime-500);background:var(--lime-50)}
 .dropzone svg{width:34px;height:34px;color:var(--lime-600);margin:0 auto 8px}
 .dropzone b{display:block;color:var(--navy-700)}

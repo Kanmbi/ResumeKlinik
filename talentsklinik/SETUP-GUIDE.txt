@@ -70,7 +70,7 @@ WHERE THINGS LIVE  (paths from the main folder)
 ------------------------------------------------------------------
 talentsklinik/index.html            The app page
 talentsklinik/assets/app.js         All app features
-talentsklinik/assets/app.css        App layout (uses base.css, the RésuméKlinik design)
+talentsklinik/assets/app.css        App layout (builds on the website stylesheet)
 talentsklinik/assets/config.js      Your public settings (Supabase, WhatsApp, email)
 talentsklinik/supabase-setup.sql    Database tables and privacy rules
 netlify/functions/ai.js             Secure AI connection (runs on Netlify, holds no keys)
