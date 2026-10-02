@@ -1,0 +1,150 @@
+/* A private page. Pink and red, with a little of the teal from her scarf. */
+:root{
+  --bg1:#2a0714; --bg2:#5a0f2e; --bg3:#8a1b48;
+  --pink:#ff3d8f; --pink2:#ff85b5; --pink3:#ffc2d9; --red:#e5243f;
+  --cream:#fff4f7; --ink:#3a0a1d; --teal:#2bb3a8; --gold:#f5c76b;
+  --serif:'Fraunces',Georgia,serif; --sans:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:var(--sans);color:var(--cream);background:radial-gradient(120% 80% at 50% 0%,var(--bg3) 0%,var(--bg2) 45%,var(--bg1) 100%) fixed;min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+canvas#bg,canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+canvas#bg{z-index:0;opacity:.9}
+canvas#fx{z-index:5}
+#stage{position:relative;z-index:2;min-height:100svh;display:grid;place-items:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom))}
+.screen{width:100%;max-width:480px;text-align:center;animation:rise .7s var(--ease) both}
+.screen[hidden]{display:none}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.eyebrow{font-size:.85rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--pink2);margin:0 0 10px}
+.title{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,9vw,3.6rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}
+.title em{font-style:italic;font-weight:600;color:var(--pink2)}
+.lead{font-size:1.05rem;line-height:1.6;color:rgba(255,244,247,.86);margin:0 0 26px}
+.sign{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--pink2);margin:-6px 0 28px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:800 1rem var(--sans);color:#fff;background:linear-gradient(135deg,var(--pink),var(--red));border:0;border-radius:999px;padding:14px 26px;cursor:pointer;box-shadow:0 10px 30px -10px rgba(255,61,143,.7);transition:transform .15s,box-shadow .2s,opacity .2s;text-decoration:none}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn[hidden],[hidden]{display:none!important}
+.btn.ghost{background:rgba(255,255,255,.08);box-shadow:none;border:1.5px solid rgba(255,255,255,.22)}
+.btn.big{padding:18px 30px;font-size:1.1rem}
+.btn.alt{background:linear-gradient(135deg,var(--teal),#1f8f86);box-shadow:0 10px 30px -10px rgba(43,179,168,.6)}
+.linkbtn{background:none;border:0;color:var(--pink2);font:700 .9rem var(--sans);text-decoration:underline;cursor:pointer;padding:0}
+.choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px}
+
+.sound{position:fixed;top:14px;right:14px;z-index:6;width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);background:rgba(42,7,20,.55);color:var(--cream);font-size:1.1rem;cursor:pointer;backdrop-filter:blur(6px)}
+.sound[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
+
+/* ---- lock ---- */
+#lock-form{display:grid;gap:12px;max-width:360px;margin:0 auto}
+#code{font:700 1.25rem var(--sans);letter-spacing:.08em;text-align:center;color:var(--ink);background:var(--cream);border:2px solid transparent;border-radius:16px;padding:16px 18px;outline:none;width:100%}
+#code:focus{border-color:var(--pink);box-shadow:0 0 0 5px rgba(255,61,143,.25)}
+#code.shake{animation:shake .5s}
+@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+.hint{margin:18px 0 0;color:var(--pink3);font-size:.95rem}
+
+/* ---- gift box ---- */
+.gift{position:relative;width:200px;height:200px;margin:28px auto 10px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;outline:none}
+.gift:focus-visible{filter:drop-shadow(0 0 0 3px var(--pink2))}
+.gift .body{position:absolute;left:20px;right:20px;bottom:10px;height:120px;background:linear-gradient(180deg,#ff5aa3,#e5243f);border-radius:10px;box-shadow:inset 0 -14px 0 rgba(0,0,0,.12)}
+.gift .ribbon-v{position:absolute;left:50%;top:0;bottom:0;width:26px;margin-left:-13px;background:linear-gradient(90deg,#ffd27a,var(--gold),#ffd27a)}
+.gift .ribbon-h{position:absolute;left:0;right:0;top:46px;height:22px;background:linear-gradient(180deg,#ffd27a,var(--gold),#ffd27a)}
+.gift .lid{position:absolute;left:8px;right:8px;bottom:118px;height:46px;background:linear-gradient(180deg,#ff7fb8,#ff3d8f);border-radius:8px;box-shadow:0 8px 18px -8px rgba(0,0,0,.5);transition:transform .9s var(--ease),opacity .9s;transform-origin:70% 100%;z-index:2}
+.gift .lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:26px;margin-left:-13px;background:linear-gradient(90deg,#ffd27a,var(--gold),#ffd27a)}
+.gift .bow{position:absolute;left:50%;top:-26px;width:60px;height:34px;margin-left:-30px}
+.gift .bow i{position:absolute;top:4px;width:28px;height:28px;border:7px solid var(--gold);border-radius:50% 50% 50% 0;transform:rotate(-45deg);left:0}
+.gift .bow i+i{left:auto;right:0;transform:rotate(45deg) scaleX(-1);border-radius:50% 50% 50% 0}
+.gift .shadow{position:absolute;left:30px;right:30px;bottom:-6px;height:18px;background:rgba(0,0,0,.35);filter:blur(10px);border-radius:50%}
+.gift.wiggle{animation:wiggle .45s var(--ease)}
+@keyframes wiggle{0%{transform:rotate(0)}20%{transform:rotate(-8deg) translateY(-4px)}40%{transform:rotate(7deg) translateY(-8px)}60%{transform:rotate(-5deg) translateY(-4px)}80%{transform:rotate(3deg)}100%{transform:rotate(0)}}
+.gift.open .lid{transform:translateY(-170px) rotate(-28deg) translateX(40px);opacity:0}
+.gift.open .body{animation:settle .8s var(--ease)}
+@keyframes settle{30%{transform:translateY(6px) scaleX(1.04)}100%{transform:none}}
+.taps{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.taps i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.18);transition:background .25s,transform .25s}
+.taps i.on{background:var(--pink);transform:scale(1.25);box-shadow:0 0 14px var(--pink)}
+
+/* ---- cards ---- */
+.deck{position:relative;height:min(74svh,640px);min-height:520px;perspective:1200px}
+.card{position:absolute;inset:0;background:var(--cream);color:var(--ink);border-radius:26px;padding:28px 24px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 30px 60px -24px rgba(0,0,0,.6);opacity:0;transform:translateX(60px) rotate(4deg);transition:transform .55s var(--ease),opacity .45s;pointer-events:none;overflow:hidden}
+.card.on{opacity:1;transform:none;pointer-events:auto;z-index:2}
+.card.left{transform:translateX(-70px) rotate(-5deg);opacity:0}
+.card .when{font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.card h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,6.2vw,2.1rem);line-height:1.12;margin:0 0 12px;letter-spacing:-.015em}
+.card h3 em{font-style:italic;font-weight:600;color:var(--pink)}
+.card p{font-size:1.02rem;line-height:1.6;margin:auto 0 0;color:#5a2a40}
+.card p.small{font-size:.85rem;margin-top:12px}
+.art{width:100%;flex:1;min-height:120px;display:grid;place-items:center;margin:6px 0 10px}
+.art svg{width:100%;max-width:320px;height:auto;overflow:visible}
+.map .dot{fill:var(--pink);stroke:#fff;stroke-width:3}
+.map .lbl{font:800 13px var(--sans);fill:#7a2a4a;text-anchor:middle;letter-spacing:.06em}
+.map .flyer path{fill:var(--red);stroke:#fff;stroke-width:1}
+.merge{position:relative;font-size:3.4rem;line-height:1}
+.merge .h{position:absolute;color:var(--pink);animation:drift 2.6s var(--ease) infinite alternate}
+.merge .h1{left:30%;animation-name:drift-l}
+.merge .h2{right:30%;animation-name:drift-r}
+.merge .h3{color:var(--red);font-size:4.4rem;opacity:0;animation-name:pop}
+@keyframes drift-l{0%,35%{transform:translateX(-60px);opacity:1}70%,100%{transform:translateX(0);opacity:0}}
+@keyframes drift-r{0%,35%{transform:translateX(60px);opacity:1}70%,100%{transform:translateX(0);opacity:0}}
+@keyframes pop{0%,60%{opacity:0;transform:scale(.4)}80%{opacity:1;transform:scale(1.15)}100%{opacity:1;transform:scale(1)}}
+.mend svg path{stroke-width:6;stroke-linecap:round;fill:none}
+.mend .line-broken{stroke:#ffb6d2;animation:fadeout 4s infinite}
+.mend .line-heal{stroke:var(--red);stroke-dasharray:300;stroke-dashoffset:300;animation:heal 4s infinite}
+@keyframes heal{0%,30%{stroke-dashoffset:300}70%,100%{stroke-dashoffset:0}}
+@keyframes fadeout{0%,30%{opacity:1}70%,100%{opacity:0}}
+.quote{font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(1.9rem,7.5vw,2.6rem);line-height:1.15;color:var(--pink);margin:6px 0 4px}
+.steps .fp{fill:var(--pink);opacity:0;animation:stepin 4.2s infinite}
+.steps .fp:nth-of-type(even){fill:var(--red)}
+@keyframes stepin{0%{opacity:0}10%,78%{opacity:1}92%,100%{opacity:0}}
+.trip{position:relative;height:120px;width:100%;max-width:320px}
+.trip .city{position:absolute;bottom:0;left:0;font-weight:800;letter-spacing:.08em;color:#7a2a4a;font-size:.85rem}
+.trip .city.right{left:auto;right:0}
+.trip .plane{position:absolute;top:34px;left:0;font-size:2rem;color:var(--red);animation:fly 3.6s var(--ease) infinite;transform:rotate(90deg)}
+@keyframes fly{0%{left:0;transform:translateY(0) rotate(90deg) scale(.8);opacity:0}10%{opacity:1}50%{transform:translateY(-34px) rotate(90deg) scale(1)}90%{opacity:1}100%{left:calc(100% - 34px);transform:translateY(0) rotate(90deg) scale(.8);opacity:0}}
+.count{display:flex;gap:12px;justify-content:center;margin:0 0 12px}
+.count span{display:grid;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7a2a4a;background:#ffe3ee;border-radius:14px;padding:10px 14px;min-width:72px}
+.count b{font-family:var(--serif);font-size:1.7rem;color:var(--red);line-height:1.1}
+
+/* catch game */
+.arena{position:relative;width:100%;flex:1;min-height:300px;border-radius:18px;background:linear-gradient(180deg,#ffe3ee,#ffd0e2);overflow:hidden;margin:8px 0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.arena .score{position:absolute;top:10px;right:12px;font-weight:800;color:var(--red);background:#fff;border-radius:999px;padding:6px 12px;z-index:3}
+.arena .fall{position:absolute;top:-50px;width:44px;height:44px;font-size:2.1rem;line-height:44px;text-align:center;color:var(--pink);cursor:pointer;animation:fall linear forwards;user-select:none;filter:drop-shadow(0 4px 6px rgba(229,36,63,.3))}
+.arena .fall.gold{color:var(--gold)}
+.arena .fall.caught{animation:caught .35s var(--ease) forwards}
+@keyframes fall{to{transform:translateY(420px) rotate(20deg)}}
+@keyframes caught{to{transform:scale(1.8);opacity:0}}
+.arena .won{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:1.8rem;color:var(--red);background:rgba(255,244,247,.7);z-index:4;animation:rise .5s var(--ease)}
+.card.game h3 b{color:var(--red)}
+
+/* scratch reveal */
+.frame{position:relative;width:min(100%,320px);aspect-ratio:4/5;border-radius:18px;overflow:hidden;box-shadow:0 20px 40px -18px rgba(0,0,0,.5);background:#f3d3df;margin:4px 0 12px;flex:none}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.frame canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;transition:opacity .8s}
+.frame canvas.gone{opacity:0;pointer-events:none}
+.card .fade{opacity:0;transition:opacity .8s .3s}
+.card .fade.in{opacity:1}
+.card.reveal .frame{margin-top:0}
+
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.dots{display:flex;gap:6px}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25)}
+.dots i.on{background:var(--pink2);transform:scale(1.3)}
+.dots i.done{background:rgba(255,133,181,.7)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .merge .h3,.steps .fp,.mend .line-heal{opacity:1;stroke-dashoffset:0}
+  .arena .fall{animation-duration:6s!important}
+}
+@media (min-width:720px){
+  .deck{height:640px}
+  .title{font-size:3.8rem}
+}
+
+.card.final .choices{margin:0 0 auto}
+.pulse{flex:1;min-height:140px}
+.pulse span{font-size:7rem;line-height:1;color:var(--pink);animation:beat 1.4s ease-in-out infinite;filter:drop-shadow(0 16px 24px rgba(255,61,143,.35))}
+@keyframes beat{0%,100%{transform:scale(1)}14%{transform:scale(1.12)}28%{transform:scale(1)}42%{transform:scale(1.1)}70%{transform:scale(1)}}
