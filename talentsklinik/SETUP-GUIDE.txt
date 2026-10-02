@@ -59,6 +59,27 @@ STAGE 3 — SWITCH ON MEMBER ACCOUNTS (20 minutes)
    Authentication > Settings, as the free sender is rate-limited.
 
 ------------------------------------------------------------------
+STAGE 4 — EMPLOYER PORTAL (needs Stage 3)
+------------------------------------------------------------------
+The employer portal lives at resumeklinik.com/talentsklinik/employers.
+Employers sign up, you approve them, then they can search anonymised
+candidates, post roles and request introductions. Only you ever see a
+candidate's name, email or phone.
+
+1. Make sure supabase-setup.sql has been run in full (it includes the
+   employer tables; running it again is safe).
+2. Create your own account on the employer portal (any company name),
+   then make it an admin. Supabase > SQL Editor > run:
+      insert into public.tk_admins (user_id)
+      select id from auth.users where email = 'YOUR-EMAIL@example.com';
+3. Sign in again. You now see an "Admin" page with two tabs:
+      Employers       approve or reject new employer sign-ups
+      Introductions   approve a request, then connect the two parties
+                      yourself by email or WhatsApp (details are shown)
+4. Candidates see open roles under "Get matched" and can express
+   interest; employers see them ranked by fit.
+
+------------------------------------------------------------------
 SEEING WHO WANTS TO BE MATCHED
 ------------------------------------------------------------------
 Supabase > Table Editor > matching_pool. It lists every member who opted

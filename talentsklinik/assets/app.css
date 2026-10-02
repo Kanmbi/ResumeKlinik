@@ -271,3 +271,11 @@ a.tile:hover{border-color:var(--gray-400);box-shadow:var(--shadow-sm)}
   .next{flex-direction:column;text-align:center}
 }
 @media (max-width:700px){.hide-sm{display:none}}
+
+/* ---------- Employer portal ---------- */
+.tk-dialog .scrim{display:block;position:fixed;inset:0;background:rgba(6,38,49,.55);z-index:90}
+.tk-dialog .dlg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;z-index:91;margin:0;box-shadow:var(--shadow-lg)}
+.cand .pill.good{background:var(--gray-100);color:var(--gray-700);font-weight:600}
+.open-job{border:1px solid var(--gray-200);border-radius:12px;padding:16px;margin-bottom:12px}
+.open-job .meta{color:var(--gray-600);font-size:.88rem;margin:2px 0 8px}
+.open-job p{font-size:.93rem;color:var(--gray-700);margin:0 0 10px;white-space:pre-line}

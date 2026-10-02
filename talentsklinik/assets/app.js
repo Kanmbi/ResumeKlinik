@@ -489,9 +489,11 @@
       checks.map(function (c) { return '<li style="color:' + (c[0] ? 'var(--gray-700)' : 'var(--gray-400)') + '">' + (c[0] ? I.circlecheck : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>') + '<span>' + c[1] + (c[0] ? '' : ' · <a href="#/' + c[2] + '">Do this</a>') + '</span></li>'; }).join('') + '</ul>' + meter('Readiness', Math.round(ready / 4 * 100)) + '</div>' +
       '<div class="panel" id="optin"></div></div>' +
       '<div class="panel"><div class="copy-row"><h3 style="margin:0">Roles that fit you</h3>' + (canAI() ? '<button class="btn btn-outline btn-sm" id="roles-go">' + I.spark + (d.roles ? ' Refresh' : ' Suggest roles') + '</button>' : '') + '</div><div id="roles" style="margin-top:14px">' + rolesHTML() + '</div></div>' +
+      (HAS_DB ? '<div class="panel"><div class="copy-row"><h3 style="margin:0">Open roles from employers</h3></div><p class="hint">Roles posted on Talents Klinik by verified employers. Express interest and the employer sees your assessed, anonymised profile.</p><div id="open-jobs">' + loading('Loading roles…') + '</div></div>' : '') +
       '<div class="panel"><h3>Search job boards now</h3><p class="hint">Open live listings for your target role on trusted Nigerian and global boards.</p><div class="actions">' +
       BOARDS.map(function (b) { return '<a class="btn btn-outline btn-sm" target="_blank" rel="noopener" href="' + b[1] + encodeURIComponent(d.profile.targetRole || '') + '">' + b[0] + '</a>'; }).join('') + '</div></div>';
     drawOptIn();
+    if (HAS_DB) drawOpenJobs();
     var rg = $('#roles-go');
     if (rg) rg.onclick = function () {
       $('#roles').innerHTML = loading('Finding roles that fit your profile…'); rg.disabled = true;
@@ -499,6 +501,35 @@
       ai('role_fit', { profile: d.profile, persona: p, cvSummary: d.cv ? d.cv.result.summary : '' }).then(function (j) { d.roles = { result: j.result, at: new Date().toISOString() }; save(); $('#roles').innerHTML = rolesHTML(); rg.disabled = false; }).catch(function (e) { $('#roles').innerHTML = errorBox(e.message); rg.disabled = false; });
     };
   };
+  function drawOpenJobs() {
+    var box = $('#open-jobs'); if (!box) return;
+    var mine = {};
+    var q = sb.from('tk_open_jobs').select('*').order('created_at', { ascending: false }).limit(50);
+    var qi = S.user ? sb.from('tk_interests').select('job_id').eq('candidate_id', S.user.id) : Promise.resolve({ data: [] });
+    Promise.all([q, qi]).then(function (r) {
+      if (r[0].error) throw r[0].error;
+      (r[1].data || []).forEach(function (x) { mine[x.job_id] = true; });
+      var jobs = r[0].data || [];
+      var pay = function (j) { if (!j.salary_min && !j.salary_max) return ''; var f = function (n) { return '₦' + Number(n).toLocaleString('en-NG'); }; return j.salary_min && j.salary_max ? f(j.salary_min) + ' – ' + f(j.salary_max) + '/month' : f(j.salary_min || j.salary_max) + '/month'; };
+      box.innerHTML = jobs.length ? jobs.map(function (j) {
+        var on = !!mine[j.id];
+        return '<div class="open-job" data-job="' + esc(j.id) + '"><b style="color:var(--navy-700)">' + esc(j.title) + '</b><div class="meta">' + esc([j.company, j.location, j.work_mode, j.level, pay(j)].filter(Boolean).join(' · ')) + '</div><p>' + esc(j.description || '') + (j.requirements ? '\n\nRequirements: ' + esc(j.requirements) : '') + '</p>' +
+          (S.user ? '<button class="btn ' + (on ? 'btn-outline' : 'btn-primary') + ' btn-sm" data-interest="' + esc(j.id) + '" aria-pressed="' + on + '">' + (on ? I.circlecheck + ' Interested' : 'I am interested') + '</button>' : '<button class="btn btn-primary btn-sm" data-action="to-auth">Create a free account to express interest</button>') + '</div>';
+      }).join('') : '<p style="color:var(--gray-600);margin:0">No open roles right now. Opt in to matching so employers can find you, and check back soon.</p>';
+      $$('[data-interest]', box).forEach(function (b) {
+        b.onclick = function () {
+          var id = b.getAttribute('data-interest'), on = !!mine[id];
+          if (!on && !(S.data.match && S.data.match.optIn)) { toast('Opt in to matching first so the employer can see your profile.'); return; }
+          b.disabled = true;
+          (on ? sb.from('tk_interests').delete().eq('job_id', id).eq('candidate_id', S.user.id) : sb.from('tk_interests').insert({ job_id: id, candidate_id: S.user.id })).then(function (r) {
+            b.disabled = false; if (r.error) { toast(r.error.message); return; }
+            mine[id] = !on; b.className = 'btn ' + (!on ? 'btn-outline' : 'btn-primary') + ' btn-sm'; b.setAttribute('aria-pressed', String(!on)); b.innerHTML = !on ? I.circlecheck + ' Interested' : 'I am interested';
+            toast(!on ? 'The employer can now see your profile for this role' : 'Interest withdrawn');
+          });
+        };
+      });
+    }).catch(function (e) { box.innerHTML = errorBox(e.message || 'Could not load roles.'); });
+  }
   function rolesHTML() {
     var r = S.data.roles; if (!r) return '<p style="color:var(--gray-600);margin:0">' + (canAI() ? 'Get personalised role suggestions based on your profile and personality.' : 'Create a free account to get personalised role suggestions.') + '</p>';
     return (r.result.roles || []).map(function (x) { return '<div class="gap"><b>' + esc(x.title) + '</b><span class="pill ' + esc(x.fit) + '">' + esc(x.fit) + '</span><p>' + esc(x.why) + ' <a target="_blank" rel="noopener" href="' + BOARDS[0][1] + encodeURIComponent(x.search || x.title) + '">Search jobs</a></p></div>'; }).join('');
@@ -653,7 +684,7 @@
       '<div class="field"><label for="pwd">Password' + (up ? ' <em>(at least 8 characters)</em>' : '') + '</label><input id="pwd" type="password" minlength="8" required autocomplete="' + (up ? 'new-password' : 'current-password') + '"></div>' +
       (up ? '<label class="checkline" style="margin-bottom:18px"><input type="checkbox" id="agree" required><span>I agree to the <a href="' + SITE + '/terms" target="_blank" rel="noopener">terms</a> and <a href="' + SITE + '/privacy" target="_blank" rel="noopener">privacy policy</a>.</span></label>' : '<p style="text-align:right;margin:-6px 0 16px"><button type="button" class="linkbtn" id="forgot">Forgot password?</button></p>') +
       '<button class="btn btn-primary btn-block" type="submit">' + (up ? 'Create account' : 'Sign in') + '</button></form>' +
-      '<div class="divider">or</div><button class="btn btn-outline btn-block" id="guest">Continue as guest</button><p class="fine"><a href="' + SITE + '">Back to RésuméKlinik</a></p>';
+      '<div class="divider">or</div><button class="btn btn-outline btn-block" id="guest">Continue as guest</button><p class="fine">Hiring? <a href="' + BASE + '/employers">Employer sign in</a> · <a href="' + SITE + '">Back to RésuméKlinik</a></p>';
     $$('.seg button', card).forEach(function (b) { b.onclick = function () { drawAuth(b.getAttribute('data-m')); }; });
     $('#guest').onclick = startGuest;
     var fg = $('#forgot'); if (fg) fg.onclick = function () { drawAuth('reset'); };
