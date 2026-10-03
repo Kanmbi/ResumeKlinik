@@ -7,6 +7,8 @@
     campStart: '',                   // e.g. '2026-10-06' shows "Day 3 of 30" on the camp card; leave '' to hide it
     campDays: 30,
     heartsToCatch: 7,
+    youtubeId: 'o7FM4ZV-BAQ',          // Lana Del Rey, Young and Beautiful (official video)
+    songSeconds: 236,                // 3:56
     whatsapp: '2348081688328',       // where "Tell me you opened it" goes
     replyText: 'I opened it 🤍'
   };
@@ -41,6 +43,17 @@
     audio.on = !audio.on; ensureCtx();
     soundBtn.setAttribute('aria-pressed', String(audio.on)); soundBtn.setAttribute('aria-label', audio.on ? 'Turn sound off' : 'Turn sound on');
     if (audio.on) chime('tap');
+  });
+
+  /* ---------------- Our song (official YouTube player, starts on her tap) ---------------- */
+  var songBtn = $('#song-btn'), songBox = $('#song-player'), songOn = false, songT0 = 0;
+  songBtn.addEventListener('click', function () {
+    if (!songOn) {
+      songOn = true; songT0 = Date.now(); songBox.hidden = false;
+      songBox.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + CONFIG.youtubeId + '?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Young and Beautiful" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+      songBtn.textContent = '♪ Young and Beautiful'; songBtn.classList.add('on');
+      (function tick() { var p = Math.min(1, (Date.now() - songT0) / (CONFIG.songSeconds * 1000)); $('#songline i').style.width = (p * 100) + '%'; if (p < 1) setTimeout(tick, 1000); })();
+    } else { songBox.classList.toggle('mini'); songBtn.textContent = songBox.classList.contains('mini') ? '♪ Show the song' : '♪ Young and Beautiful'; }
   });
 
   /* ---------------- Background hearts ---------------- */

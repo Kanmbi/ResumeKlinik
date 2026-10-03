@@ -12,13 +12,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="style.css?v=8">
-<script src="unbox.js?v=8" defer></script>
+<link rel="stylesheet" href="style.css?v=9">
+<script src="unbox.js?v=9" defer></script>
 </head>
 <body>
 <canvas id="bg" aria-hidden="true"></canvas>
 <canvas id="fx" aria-hidden="true"></canvas>
-<button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Turn sound on">♪</button>
+<div class="songline" id="songline" aria-hidden="true"><i></i></div>
+<button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Turn sound effects on">♪</button>
+<div class="song" id="song"><button class="song-btn" id="song-btn" type="button">▶ Play our song</button><div class="song-player" id="song-player" hidden></div></div>
 
 <main id="stage">
 
@@ -77,14 +79,26 @@
         <p>When life got heavy I went quiet, and that was on me. Then I spent a year and more asking you to let me back in. You didn't make it easy, and you were right not to. You gave me another chance. I don't take that lightly, and I'm not going anywhere.</p>
       </article>
 
-      <article class="card" data-step="4">
+      <article class="card letter" data-step="4">
+        <span class="when">What I wrote you once</span>
+        <div class="letter-box">
+          <p>I declared my total commitment to you the moment we started talking. The way our conversations flowed, the charm in your voice, the constant assurance you gave me whenever I complained about things back then, and the fact that you were so compassionate. I can never afford to intentionally break your heart.</p>
+          <p>I never shut you out, all through the time we weren't really together. I still checked in, and the moment I became stable I ruthlessly started reaching out to mend my mistakes.</p>
+          <p>I had never been with a girl while unemployed, and that phase felt like losing my prestige, the one thing I thought gave me the value I was appreciated for. I am really sorry it all happened that way. In the chats you replied to and in our calls, you made it clear that I should have been able to tell you my worries regardless, and I'm holding that dear to my heart.</p>
+          <p>See how we clicked and kicked off like we never stopped talking? There's this comfort I feel when your chat pops up on my phone, and when I hear your voice.</p>
+          <p><em>I really hope you'd love me as you used to.</em></p>
+        </div>
+        <p class="small">Scroll the letter, then tap Next.</p>
+      </article>
+
+      <article class="card" data-step="5">
         <span class="when">Your words</span>
         <blockquote class="quote">“Trying, yeah.<br>Step by step.”</blockquote>
         <div class="art steps" aria-hidden="true"><svg viewBox="0 0 320 170"><defs><g id="fp"><ellipse cx="0" cy="10" rx="7" ry="10"/><ellipse cx="-1" cy="-7" rx="8" ry="7"/><circle cx="-8" cy="-16" r="2.4"/><circle cx="-3" cy="-18" r="2.4"/><circle cx="2.5" cy="-18" r="2.2"/><circle cx="7.5" cy="-16" r="2"/></g></defs><use href="#fp" class="fp" style="animation-delay:0s" transform="translate(45,135) rotate(-25) scale(1.15)"/><use href="#fp" class="fp" style="animation-delay:0.6s" transform="translate(95,112) rotate(-18) scale(1.15)"/><use href="#fp" class="fp" style="animation-delay:1.2s" transform="translate(145,90) rotate(-22) scale(1.15)"/><use href="#fp" class="fp" style="animation-delay:1.8s" transform="translate(195,68) rotate(-16) scale(1.15)"/><use href="#fp" class="fp" style="animation-delay:2.4s" transform="translate(245,46) rotate(-20) scale(1.15)"/><use href="#fp" class="fp" style="animation-delay:3.0s" transform="translate(295,24) rotate(-14) scale(1.15)"/></svg></div>
         <p>I kept those four words. No rush, no pressure. Just showing up, every day, until it adds up to something you can lean on.</p>
       </article>
 
-      <article class="card pack" data-step="5">
+      <article class="card pack" data-step="6">
         <span class="when">Right now</span>
         <h3>Abuja. One month. A cutlass, a broom and half the market.</h3>
         <p class="campline" id="campline">Somewhere in that camp there is grass that has no idea what is coming.</p>
@@ -96,7 +110,7 @@
         </div>
       </article>
 
-      <article class="card kit" data-step="6">
+      <article class="card kit" data-step="7">
         <span class="when">Survival kit, from me</span>
         <h3>Tap each one to open it.</h3>
         <div class="kit-grid" id="kit">
@@ -108,14 +122,14 @@
         <p class="small" id="kit-left">4 left to open</p>
       </article>
 
-      <article class="card game" data-step="7">
+      <article class="card game" data-step="8">
         <span class="when">One more thing</span>
         <h3>Catch <b id="need">7</b> hearts to unlock the last one.</h3>
         <div class="arena" id="arena" aria-label="Catch the falling hearts"><div class="score" id="score">0 / 7</div></div>
         <p class="small"><button class="linkbtn" id="skip-game" type="button" hidden>Skip (I believe you)</button></p>
       </article>
 
-      <article class="card reveal" data-step="8">
+      <article class="card reveal" data-step="9">
         <span class="when">Scratch here</span>
         <h3>My favourite view.</h3>
         <div class="frame" id="frame">
@@ -125,7 +139,7 @@
         <p id="reveal-text" class="fade">This is who I'm doing all of it for.</p>
       </article>
 
-      <article class="card final" data-step="9">
+      <article class="card final" data-step="10">
         <span class="when">So</span>
         <h3>Sururah, will you keep taking the steps with me?</h3>
         <div class="art pulse" aria-hidden="true"><span>♥</span></div>
