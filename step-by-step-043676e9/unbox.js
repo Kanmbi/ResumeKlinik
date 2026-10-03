@@ -4,7 +4,8 @@
   var CONFIG = {
     code: ['step by step'],          // what she types to open it (case and spaces don't matter)
     requireCode: true,               // set false to open without the three words
-    visitDate: '',                   // e.g. '2026-10-17T12:00:00+01:00' shows a countdown on the October card; leave '' to hide it
+    campStart: '',                   // e.g. '2026-10-06' shows "Day 3 of 30" on the camp card; leave '' to hide it
+    campDays: 30,
     heartsToCatch: 7,
     whatsapp: '2348081688328',       // where "Tell me you opened it" goes
     replyText: 'I opened it 🤍'
@@ -118,7 +119,7 @@
   var cards = $$('.card'), idx = 0, prev = $('#prev'), next = $('#next'), dots = $('#dots');
   var gates = {};  // step index -> true when its little game is done
   cards.forEach(function () { var i = document.createElement('i'); dots.appendChild(i); });
-  function gated(i) { return cards[i].classList.contains('game') && !gates.game || cards[i].classList.contains('reveal') && !gates.reveal; }
+  function gated(i) { var c = cards[i].classList; return c.contains('game') && !gates.game || c.contains('reveal') && !gates.reveal || c.contains('pack') && !gates.pack || c.contains('kit') && !gates.kit; }
   function goTo(i) {
     idx = Math.max(0, Math.min(cards.length - 1, i)); sx = null;
     cards.forEach(function (c, k) { c.classList.toggle('on', k === idx); c.classList.toggle('left', k < idx); });
@@ -128,7 +129,8 @@
     next.hidden = last; next.disabled = gated(idx);
     if (cards[idx].classList.contains('game')) startGame();
     if (cards[idx].classList.contains('reveal')) initScratch();
-    if (cards[idx].dataset.step === '5') countdown();
+    if (cards[idx].classList.contains('pack')) startPack();
+    if (cards[idx].classList.contains('kit')) startKit();
     chime('tap');
   }
   next.addEventListener('click', function () { if (!gated(idx)) goTo(idx + 1); });
@@ -145,19 +147,62 @@
   $('#deck').addEventListener('pointercancel', function () { sx = null; });
   document.addEventListener('keydown', function (e) { if (screens.cards.hidden) return; if (e.key === 'ArrowRight' && !gated(idx)) goTo(idx + 1); if (e.key === 'ArrowLeft') goTo(idx - 1); });
 
-  /* October countdown (only when a date is set) */
-  function countdown() {
-    if (!CONFIG.visitDate) return;
-    var box = $('#count'), target = new Date(CONFIG.visitDate).getTime(); if (isNaN(target)) return;
-    var tick = function () {
-      var ms = target - Date.now();
-      if (ms <= 0) { box.hidden = true; $('#trip-text').textContent = 'You’re here. Finally.'; return; }
-      box.hidden = false;
-      $('#c-d').textContent = Math.floor(ms / 864e5); $('#c-h').textContent = Math.floor(ms / 36e5) % 24; $('#c-m').textContent = Math.floor(ms / 6e4) % 60;
-      if (!screens.cards.hidden && cards[idx].dataset.step === '5') setTimeout(tick, 30000);
-    };
-    tick();
+  /* ---------------- 3b. Pack the camp bag ---------------- */
+  var ITEMS = [
+    ['🧹', 'Broom', true, 'Packed. Camp dust has met its match.', 'Leave the broom? Madam, who will sweep the vibes?'],
+    ['🗡️', 'Cutlass', true, 'Packed. For grass. Only grass. We agreed.', 'No cutlass? The grass will laugh at you. Try again.'],
+    ['🪣', 'Bucket', true, 'Packed. Five-star shower, camp edition.', 'No bucket? Bathing with what, confidence?'],
+    ['👠', 'Heels', false, 'Heels? To do what, intimidate the mosquitoes? Leave them.', 'Correct. The camp ground is not a runway.'],
+    ['🔦', 'Torch', true, 'Packed. For finding your slippers at 4am.', 'No torch? 4am will find you first.'],
+    ['📺', 'Netflix', false, 'No light, no Wi-Fi, no chill. Leave it.', 'Correct. The only series in camp is “wake up”.'],
+    ['🦟', 'Mosquito net', true, 'Packed. The mosquitoes have been told about you. They are scared.', 'No net? The mosquitoes have already said thank you.'],
+    ['🙋🏾‍♂️', 'Mayowa', false, 'Tried to fit in the bag. Didn’t. Sending texts instead.', 'Correct, I won’t fit. But I’m coming in spirit, daily.'],
+    ['🥾', 'Boots', true, 'Packed. Camp has never seen anybody march like this.', 'No boots? Those drills will humble your slippers.'],
+    ['🛌', 'Duvet', false, 'A duvet? The camp will provide a mat and vibes. Leave it.', 'Correct. Mat and vibes it is.'],
+    ['🧴', 'Robb', true, 'Packed. For headache, chest, bites and heartbreak.', 'No Robb? Which Nigerian are you?']
+  ];
+  var queue = [], cur = null, packed = 0, packOn = false, NEED = ITEMS.filter(function (i) { return i[2]; }).length;
+  function dealItem() {
+    if (!queue.length) { finishPack(); return; }
+    cur = queue.shift();
+    var el = $('#item'); el.className = 'item'; void el.offsetWidth;
+    $('#item-emoji').textContent = cur[0]; $('#item-name').textContent = cur[1];
   }
+  function decide(packIt) {
+    if (!cur || !packOn) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
+    var right = packIt === it[2];
+    $('#verdict').textContent = packIt ? it[3] : it[4];
+    if (packIt && it[2]) { packed++; el.classList.add('out-bag'); chime('catch'); var r = $('.bag span').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 10, 5); }
+    else if (packIt) { el.classList.add('bounce'); chime('tap'); queue.push(it); }
+    else if (it[2]) { el.classList.add('out-left'); queue.push(it); }
+    else { el.classList.add('out-left'); chime('tap'); }
+    $('#bagfill').style.width = (packed / NEED * 100) + '%'; $('#bagcount').textContent = packed + ' / ' + NEED + ' packed';
+    if (packed >= NEED) { packOn = false; setTimeout(finishPack, 500); return; }
+    setTimeout(dealItem, right ? 550 : 650);
+  }
+  function startPack() {
+    if (gates.pack || packOn) return; packOn = true; packed = 0; queue = ITEMS.slice(); $('#bagcount').textContent = '0 / ' + NEED + ' packed';
+    if (CONFIG.campStart) { var day = Math.floor((Date.now() - new Date(CONFIG.campStart).getTime()) / 864e5) + 1; if (day >= 1 && day <= CONFIG.campDays) $('#campline').textContent = 'Day ' + day + ' of ' + CONFIG.campDays + '. Somewhere in that camp there is grass that has no idea what is coming.'; else if (day > CONFIG.campDays) $('#campline').textContent = 'Camp: survived. The grass: humbled.'; }
+    dealItem();
+  }
+  function finishPack() {
+    gates.pack = true; packOn = false; next.disabled = false;
+    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, bucket, torch, net, boots, Robb. And me, in every message.</p>';
+    chime('win'); var r = $('#packer').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 50, 8);
+  }
+  $('#packit').addEventListener('click', function () { decide(true); });
+  $('#leave').addEventListener('click', function () { decide(false); });
+
+  /* ---------------- 3c. Survival kit ---------------- */
+  var flipped = 0, kitStarted = false;
+  function startKit() { if (kitStarted) return; kitStarted = true; }
+  $$('#kit .flip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('on')) return; b.classList.add('on'); flipped++; chime('tap');
+      var left = 4 - flipped; $('#kit-left').textContent = left ? left + ' left to open' : 'That is the whole kit. Plus me.';
+      if (!left) { gates.kit = true; next.disabled = false; chime('win'); var r = $('#kit').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 40, 7); }
+    });
+  });
 
   /* ---------------- 4. Catch the hearts ---------------- */
   var arena = $('#arena'), score = $('#score'), caught = 0, spawner = null, gameOn = false, skipTimer = null;
@@ -221,5 +266,8 @@
   }
   $('#yes').addEventListener('click', yes);
   $('#yes2').addEventListener('click', yes);
+  var LINES = ['You are doing better than the grass. The grass is finished.', 'Whoever is shouting at you today does not know you survived a year of my begging. Nothing scares you.', 'Broom in one hand, cutlass in the other. Beyoncé could never.', 'If the food is bad, remember: a treat is waiting at the end. From me.', 'Step by step. Even the drills. Especially the drills.', 'The mosquitoes held a meeting about you. They lost.', 'Thirty days is just thirty “good morning” texts from me. Easy.', 'Tired but managing is still managing. I see you.', 'Camp will end. I won’t.', 'Report: the world outside is boring without you. Finish quickly and come back.'];
+  var lastLine = -1;
+  $('#boost').addEventListener('click', function () { var i; do { i = Math.floor(Math.random() * LINES.length); } while (i === lastLine); lastLine = i; var el = $('#boost-line'); el.textContent = LINES[i]; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; chime('tap'); burst(innerWidth / 2, innerHeight / 2, 16, 6); });
   $('#again').addEventListener('click', function () { location.reload(); });
 })();

@@ -71,10 +71,10 @@
       </article>
 
       <article class="card" data-step="3">
-        <span class="when">The quiet months</span>
-        <h3>I went quiet. You came back.</h3>
+        <span class="when">The long way back</span>
+        <h3>I went quiet. Then I begged.</h3>
         <div class="art mend" aria-hidden="true"><svg viewBox="0 0 320 80"><path class="line-broken" d="M20 40 H140" /><path class="line-broken" d="M180 40 H300"/><path class="line-heal" d="M20 40 H300"/></svg></div>
-        <p>When life got heavy I went quiet, and that was on me. You still came back. I don't take that lightly, and I'm not going anywhere.</p>
+        <p>When life got heavy I went quiet, and that was on me. Then I spent a year and more asking you to let me back in. You didn't make it easy, and you were right not to. You gave me another chance. I don't take that lightly, and I'm not going anywhere.</p>
       </article>
 
       <article class="card" data-step="4">
@@ -84,22 +84,38 @@
         <p>I kept those four words. No rush, no pressure. Just showing up, every day, until it adds up to something you can lean on.</p>
       </article>
 
-      <article class="card" data-step="5">
-        <span class="when">October</span>
-        <h3>Lagos is ready for you.</h3>
-        <div class="art trip" aria-hidden="true"><span class="plane">✈</span><span class="city">Abuja</span><span class="city right">Lagos</span></div>
-        <div class="count" id="count" hidden><span><b id="c-d">0</b>days</span><span><b id="c-h">0</b>hrs</span><span><b id="c-m">0</b>min</span></div>
-        <p id="trip-text">Five days. I've planned the rides, the food and the time. Mostly the time.</p>
+      <article class="card pack" data-step="5">
+        <span class="when">Right now</span>
+        <h3>Abuja. One month. A cutlass and a broom.</h3>
+        <p class="campline" id="campline">Somewhere in that camp there is grass that has no idea what is coming.</p>
+        <div class="packer" id="packer">
+          <div class="item" id="item"><span class="emoji" id="item-emoji">🧹</span><b id="item-name">Broom</b></div>
+          <p class="verdict" id="verdict">Pack what you need. Leave what you don't.</p>
+          <div class="pack-btns"><button class="btn ghost dark" id="leave" type="button">Leave it</button><button class="btn" id="packit" type="button">Pack it</button></div>
+          <div class="bag"><span>🎒</span><div class="bagbar"><i id="bagfill"></i></div><small id="bagcount">0 / 7 packed</small></div>
+        </div>
       </article>
 
-      <article class="card game" data-step="6">
+      <article class="card kit" data-step="6">
+        <span class="when">Survival kit, from me</span>
+        <h3>Tap each one to open it.</h3>
+        <div class="kit-grid" id="kit">
+          <button class="flip" type="button"><span class="front">📱<small>Daily check-in</small></span><span class="back">“How are you holding up, though?” Every single day. No excuses, no days off.</span></button>
+          <button class="flip" type="button"><span class="front">🌙<small>Lights-out gist</small></span><span class="back">One call, any length, whenever they let you breathe. I'll be awake.</span></button>
+          <button class="flip" type="button"><span class="front">📶<small>Emergency airtime</small></span><span class="back">Say “send” and it's done. No questions asked. Okay, one question: how are you?</span></button>
+          <button class="flip" type="button"><span class="front">🎁<small>Welcome-back treat</small></span><span class="back">The day you walk out of that camp, something small and sweet is waiting for you. From me.</span></button>
+        </div>
+        <p class="small" id="kit-left">4 left to open</p>
+      </article>
+
+      <article class="card game" data-step="7">
         <span class="when">One more thing</span>
         <h3>Catch <b id="need">7</b> hearts to unlock the last one.</h3>
         <div class="arena" id="arena" aria-label="Catch the falling hearts"><div class="score" id="score">0 / 7</div></div>
         <p class="small"><button class="linkbtn" id="skip-game" type="button" hidden>Skip (I believe you)</button></p>
       </article>
 
-      <article class="card reveal" data-step="7">
+      <article class="card reveal" data-step="8">
         <span class="when">Scratch here</span>
         <h3>My favourite view.</h3>
         <div class="frame" id="frame">
@@ -109,7 +125,7 @@
         <p id="reveal-text" class="fade">This is who I'm doing all of it for.</p>
       </article>
 
-      <article class="card final" data-step="8">
+      <article class="card final" data-step="9">
         <span class="when">So</span>
         <h3>Sururah, will you keep taking the steps with me?</h3>
         <div class="art pulse" aria-hidden="true"><span>♥</span></div>
@@ -127,8 +143,9 @@
   <section id="done" class="screen" hidden>
     <p class="eyebrow">You said yes</p>
     <h2 class="title">I love you, <em>Sururah</em>.</h2>
-    <p class="lead">Thank you for coming back. I'll keep showing up, step by step, for as long as you'll let me.</p>
+    <p class="lead">Thank you for letting me back in. Go and finish that camp; I'll be here the whole time, step by step, for as long as you'll let me.</p>
     <p class="sign">— Mayowa</p>
+    <div class="boost"><button class="btn big alt" id="boost" type="button">Camp morale, tap me</button><p class="boost-line" id="boost-line" aria-live="polite"></p></div>
     <div class="choices"><a class="btn big" id="reply" href="#" target="_blank" rel="noopener">Tell me you opened it</a><button class="btn ghost" id="again" type="button">Open it again</button></div>
   </section>
 
