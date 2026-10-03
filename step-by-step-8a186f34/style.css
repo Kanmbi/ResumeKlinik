@@ -153,10 +153,11 @@ canvas#fx{z-index:5}
 .campline{font-style:italic;color:#7a2a40!important;margin:0 0 10px!important}
 .packer{width:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:10px}
 .item{width:min(100%,260px);background:#fff;border:2px solid #ffd0e2;border-radius:20px;padding:18px 16px;display:grid;place-items:center;gap:6px;box-shadow:0 14px 30px -16px rgba(229,36,63,.5);animation:dealin .4s var(--ease)}
-.item .emoji{font-size:3.6rem;line-height:1}
+.item .emoji{font-size:3.6rem;line-height:1;height:96px;display:grid;place-items:center}
+.item .emoji img{height:96px;max-width:200px;object-fit:contain;border-radius:8px}
 .item b{font-size:1.15rem;color:var(--ink)}
-.item.out-left{animation:outleft .45s var(--ease) forwards}
-.item.out-bag{animation:outbag .5s var(--ease) forwards}
+.item.out-left{animation:outleft .45s var(--ease) forwards;animation-delay:1s}
+.item.out-bag{animation:outbag .5s var(--ease) forwards;animation-delay:.9s}
 .item.bounce{animation:bounce .5s var(--ease)}
 @keyframes dealin{from{opacity:0;transform:translateY(16px) scale(.92)}to{opacity:1;transform:none}}
 @keyframes outleft{to{opacity:0;transform:translateX(-120px) rotate(-14deg)}}

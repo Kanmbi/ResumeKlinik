@@ -150,19 +150,19 @@
   /* ---------------- 3b. Pack the camp bag ---------------- */
   var ITEMS = [
     ['🧹', 'Broom', true, 'Packed. Camp dust has met its match.', 'Leave the broom? Madam, who will sweep the vibes?'],
-    ['🗡️', 'Cutlass', true, 'Packed. For grass. Only grass. We agreed.', 'No cutlass? The grass will laugh at you. Try again.'],
+    ['🗡️', 'Cutlass', true, 'Packed. For grass. Only grass. We agreed.', 'No cutlass? The grass will laugh at you. Try again.', 'cutlass.jpg'],
     ['👠', 'Heels', false, 'Heels? To do what, intimidate the mosquitoes? Leave them.', 'Correct. The camp ground is not a runway.'],
     ['⚒️', 'Hoe', true, 'Packed. Fire Service by day, farmer by weekend.', 'No hoe? Who will clear that camp farm, your prayers?'],
     ['⛏️', 'Shovel', true, 'Packed. Whatever they are digging, you will dig it faster.', 'No shovel? They will hand you a spoon.'],
     ['📺', 'Netflix', false, 'No light, no Wi-Fi, no chill. Leave it.', 'Correct. The only series in camp is “wake up”.'],
-    ['🪖', 'Head pan', true, 'Packed. Bricklayer’s head pan: cement today, a personal statement tomorrow.', 'No head pan? You want to carry cement in your handbag?'],
-    ['🍂', 'Rake', true, 'Packed. The leaves will line up and apologise.', 'Leave the rake and the leaves win. Try again.'],
+    ['🪖', 'Head pan', true, 'Packed. Bricklayer’s head pan: cement today, a personal statement tomorrow.', 'No head pan? You want to carry cement in your handbag?', 'headpan.jpg'],
+    ['🍂', 'Rake', true, 'Packed. The leaves will line up and apologise.', 'Leave the rake and the leaves win. Try again.', 'rake.jpg'],
     ['🙋🏾‍♂️', 'Mayowa', false, 'Tried to fit in the bag. Didn’t. Sending texts instead.', 'Correct, I won’t fit. But I’m coming in spirit, daily.'],
     ['🪣', 'Bucket', true, 'Packed. Five-star shower, camp edition.', 'No bucket? Bathing with what, confidence?'],
     ['🔥', 'Cooking gas', true, 'Packed. Camp kitchen upgraded. Chef Sururah.', 'No gas? Firewood and tears, then.'],
     ['🛒', 'Food items & groceries', true, 'Packed. Nobody is losing weight on my watch.', 'Leave the food? Camp food will humble you. Pack it.'],
     ['🛌', 'Duvet', false, 'A duvet? The camp will provide a mat and vibes. Leave it.', 'Correct. Mat and vibes it is.'],
-    ['🍲', 'Semovita', true, 'Packed. Swallow secured. Egusi, you are next.', 'No Semovita? The eba people will mock you.'],
+    ['🍲', 'Semovita', true, 'Packed. Swallow secured. Egusi, you are next.', 'No Semovita? The eba people will mock you.', 'semovita.jpg'],
     ['🌽', 'Yellow garri', true, 'Packed. Yellow garri: the official stress drink of camp.', 'No garri? Then what exactly will you “soak”?'],
     ['🔦', 'Torch', true, 'Packed. For finding your slippers at 4am.', 'No torch? 4am will find you first.'],
     ['🍗', 'ChickWizz', true, 'Packed. ChickWizz, for the days camp food tries you.', 'No ChickWizz? Who hurt you?'],
@@ -175,7 +175,10 @@
     if (!queue.length) { finishPack(); return; }
     cur = queue.shift();
     var el = $('#item'); el.className = 'item'; void el.offsetWidth;
-    $('#item-emoji').textContent = cur[0]; $('#item-name').textContent = cur[1];
+    var em = $('#item-emoji');
+    if (cur[5]) em.innerHTML = '<img src="' + cur[5] + '" alt="">'; else em.textContent = cur[0];
+    $('#item-name').textContent = cur[1];
+    $('#verdict').textContent = cur[2] === null ? '' : 'Pack it, or leave it?';
   }
   function decide(packIt) {
     if (!cur || !packOn) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
@@ -186,8 +189,8 @@
     else if (it[2]) { el.classList.add('out-left'); queue.push(it); }
     else { el.classList.add('out-left'); chime('tap'); }
     $('#bagfill').style.width = (packed / NEED * 100) + '%'; $('#bagcount').textContent = packed + ' / ' + NEED + ' packed';
-    if (packed >= NEED) { packOn = false; setTimeout(finishPack, 500); return; }
-    setTimeout(dealItem, right ? 550 : 650);
+    if (packed >= NEED) { packOn = false; setTimeout(finishPack, 1400); return; }
+    setTimeout(dealItem, 1500);
   }
   function startPack() {
     if (gates.pack || packOn) return; packOn = true; packed = 0; queue = ITEMS.slice(); $('#bagcount').textContent = '0 / ' + NEED + ' packed';
