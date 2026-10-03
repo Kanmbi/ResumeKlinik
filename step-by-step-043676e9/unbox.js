@@ -151,14 +151,23 @@
   var ITEMS = [
     ['🧹', 'Broom', true, 'Packed. Camp dust has met its match.', 'Leave the broom? Madam, who will sweep the vibes?'],
     ['🗡️', 'Cutlass', true, 'Packed. For grass. Only grass. We agreed.', 'No cutlass? The grass will laugh at you. Try again.'],
-    ['🪣', 'Bucket', true, 'Packed. Five-star shower, camp edition.', 'No bucket? Bathing with what, confidence?'],
     ['👠', 'Heels', false, 'Heels? To do what, intimidate the mosquitoes? Leave them.', 'Correct. The camp ground is not a runway.'],
-    ['🔦', 'Torch', true, 'Packed. For finding your slippers at 4am.', 'No torch? 4am will find you first.'],
+    ['⚒️', 'Hoe', true, 'Packed. Fire Service by day, farmer by weekend.', 'No hoe? Who will clear that camp farm, your prayers?'],
+    ['⛏️', 'Shovel', true, 'Packed. Whatever they are digging, you will dig it faster.', 'No shovel? They will hand you a spoon.'],
     ['📺', 'Netflix', false, 'No light, no Wi-Fi, no chill. Leave it.', 'Correct. The only series in camp is “wake up”.'],
-    ['🦟', 'Mosquito net', true, 'Packed. The mosquitoes have been told about you. They are scared.', 'No net? The mosquitoes have already said thank you.'],
+    ['🪖', 'Head pan', true, 'Packed. Bricklayer’s head pan: cement today, a personal statement tomorrow.', 'No head pan? You want to carry cement in your handbag?'],
+    ['🍂', 'Rake', true, 'Packed. The leaves will line up and apologise.', 'Leave the rake and the leaves win. Try again.'],
     ['🙋🏾‍♂️', 'Mayowa', false, 'Tried to fit in the bag. Didn’t. Sending texts instead.', 'Correct, I won’t fit. But I’m coming in spirit, daily.'],
-    ['🥾', 'Boots', true, 'Packed. Camp has never seen anybody march like this.', 'No boots? Those drills will humble your slippers.'],
+    ['🪣', 'Bucket', true, 'Packed. Five-star shower, camp edition.', 'No bucket? Bathing with what, confidence?'],
+    ['🔥', 'Cooking gas', true, 'Packed. Camp kitchen upgraded. Chef Sururah.', 'No gas? Firewood and tears, then.'],
+    ['🛒', 'Food items & groceries', true, 'Packed. Nobody is losing weight on my watch.', 'Leave the food? Camp food will humble you. Pack it.'],
     ['🛌', 'Duvet', false, 'A duvet? The camp will provide a mat and vibes. Leave it.', 'Correct. Mat and vibes it is.'],
+    ['🍲', 'Semovita', true, 'Packed. Swallow secured. Egusi, you are next.', 'No Semovita? The eba people will mock you.'],
+    ['🌽', 'Yellow garri', true, 'Packed. Yellow garri: the official stress drink of camp.', 'No garri? Then what exactly will you “soak”?'],
+    ['🔦', 'Torch', true, 'Packed. For finding your slippers at 4am.', 'No torch? 4am will find you first.'],
+    ['🍗', 'ChickWizz', true, 'Packed. ChickWizz, for the days camp food tries you.', 'No ChickWizz? Who hurt you?'],
+    ['🦟', 'Mosquito net', true, 'Packed. The mosquitoes have been told about you. They are scared.', 'No net? The mosquitoes have already said thank you.'],
+    ['🥾', 'Boots', true, 'Packed. Camp has never seen anybody march like this.', 'No boots? Those drills will humble your slippers.'],
     ['🧴', 'Robb', true, 'Packed. For headache, chest, bites and heartbreak.', 'No Robb? Which Nigerian are you?']
   ];
   var queue = [], cur = null, packed = 0, packOn = false, NEED = ITEMS.filter(function (i) { return i[2]; }).length;
@@ -187,7 +196,7 @@
   }
   function finishPack() {
     gates.pack = true; packOn = false; next.disabled = false;
-    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, bucket, torch, net, boots, Robb. And me, in every message.</p>';
+    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, hoe, shovel, head pan, rake, gas, groceries, Semovita, garri, ChickWizz, the lot. Half of Abuja market, honestly. And me, in every message.</p>';
     chime('win'); var r = $('#packer').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 50, 8);
   }
   $('#packit').addEventListener('click', function () { decide(true); });
