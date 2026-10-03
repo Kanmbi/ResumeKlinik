@@ -163,12 +163,13 @@
     ['🛒', 'Food items & groceries', true, 'Packed. Nobody is losing weight on my watch.', 'Leave the food? Camp food will humble you. Pack it.'],
     ['🛌', 'Duvet', false, 'A duvet? The camp will provide a mat and vibes. Leave it.', 'Correct. Mat and vibes it is.'],
     ['🍲', 'Semovita', true, 'Packed. Swallow secured. Egusi, you are next.', 'No Semovita? The eba people will mock you.', 'semovita.jpg'],
-    ['🌽', 'Yellow garri', true, 'Packed. Yellow garri: the official stress drink of camp.', 'No garri? Then what exactly will you “soak”?'],
+    ['🌽', 'Yellow garri', true, 'Packed. Yellow garri: the official stress drink of camp.', 'No garri? Then what exactly will you “soak”?', 'garri.jpg'],
     ['🔦', 'Torch', true, 'Packed. For finding your slippers at 4am.', 'No torch? 4am will find you first.'],
-    ['🍗', 'ChickWizz', true, 'Packed. ChickWizz, for the days camp food tries you.', 'No ChickWizz? Who hurt you?'],
+    ['🍗', 'ChickWizz', true, 'Packed. ChickWizz, for the days camp food tries you.', 'No ChickWizz? Who hurt you?', 'chickwizz.jpg'],
+    ['💧', 'Eye drops', true, 'Packed. For the dust, the sun, and when camp makes you cry small.', 'No eye drops? Those drills will have you squinting till November.', 'eyedrops.jpg'],
     ['🦟', 'Mosquito net', true, 'Packed. The mosquitoes have been told about you. They are scared.', 'No net? The mosquitoes have already said thank you.'],
     ['🥾', 'Boots', true, 'Packed. Camp has never seen anybody march like this.', 'No boots? Those drills will humble your slippers.'],
-    ['🧴', 'Robb', true, 'Packed. For headache, chest, bites and heartbreak.', 'No Robb? Which Nigerian are you?']
+    ['🧴', 'Robb', true, 'Packed. For headache, chest, bites and heartbreak.', 'No Robb? Which Nigerian are you?', 'robb.jpg']
   ];
   var queue = [], cur = null, packed = 0, packOn = false, NEED = ITEMS.filter(function (i) { return i[2]; }).length;
   function dealItem() {
@@ -199,7 +200,7 @@
   }
   function finishPack() {
     gates.pack = true; packOn = false; next.disabled = false;
-    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, hoe, shovel, head pan, rake, gas, groceries, Semovita, garri, ChickWizz, the lot. Half of Abuja market, honestly. And me, in every message.</p>';
+    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, hoe, shovel, head pan, rake, gas, groceries, Semovita, garri, ChickWizz, eye drops, the lot. Half of Abuja market, honestly. And me, in every message.</p>';
     chime('win'); var r = $('#packer').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 50, 8);
   }
   $('#packit').addEventListener('click', function () { decide(true); });
