@@ -169,6 +169,14 @@
     ['🧴', 'Robb', true, 'Packed. Every ache, every bite: Robb will rob.', 'No Robb? You’re Nigerian; that’s not an option. Pack the Robb.', 'robb.jpg', 'Robb: headache, chest, bites. It does the job.']
   ];
   var queue = [], cur = null, packed = 0, packOn = false, NEED = ITEMS.filter(function (i) { return i[2]; }).length;
+  // Every item has two 5-second holds: its rhyme is read before she can answer,
+  // and her remark is read before the item leaves. Nothing moves during a hold.
+  var HOLD = function () { return CONFIG.remarkSeconds * 1000; };
+  function lockButtons(on) { $('#packit').disabled = $('#leave').disabled = on; }
+  function runTimer() {
+    var tm = $('#timer'), ti = $('#timer i'); tm.classList.remove('run'); void tm.offsetWidth;
+    ti.style.animationDuration = CONFIG.remarkSeconds + 's'; tm.classList.add('run');
+  }
   function dealItem() {
     if (!queue.length) { finishPack(); return; }
     cur = queue.shift();
@@ -177,21 +185,31 @@
     if (cur[5]) em.innerHTML = '<img src="' + cur[5] + '" alt="">'; else em.textContent = cur[0];
     $('#item-name').textContent = cur[1];
     if (cur[6]) $('#campline').textContent = cur[6];
-    $('#verdict').textContent = 'Pack it, or leave it?'; $('#verdict').classList.remove('say'); $('#timer').classList.remove('run'); if (window.__remarkAt) window.__remarkHeld = performance.now() - window.__remarkAt;
+    var vd = $('#verdict'); vd.classList.remove('say'); vd.textContent = 'Read it first…';
+    lockButtons(true); runTimer(); window.__readAt = performance.now();
+    var mine = cur;
+    setTimeout(function () {
+      if (cur !== mine || !packOn) return;
+      window.__readHeld = performance.now() - window.__readAt;
+      $('#timer').classList.remove('run'); vd.textContent = 'Pack it, or leave it?'; lockButtons(false);
+    }, HOLD());
   }
   function decide(packIt) {
-    if (!cur || !packOn) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
-    var right = packIt === it[2];
+    if (!cur || !packOn || $('#packit').disabled) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
     var vd = $('#verdict'); vd.textContent = packIt ? it[3] : it[4]; vd.classList.remove('say'); void vd.offsetWidth; vd.classList.add('say');
-    var tm = $('#timer'), ti = $('#timer i'); tm.classList.remove('run'); void tm.offsetWidth; ti.style.animationDuration = CONFIG.remarkSeconds + 's'; tm.classList.add('run'); window.__remarkAt = performance.now();
-    if (packIt && it[2]) { packed++; el.classList.add('out-bag'); chime('catch'); var r = $('.bag span').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 10, 5); }
-    else if (packIt) { el.classList.add('bounce'); chime('tap'); queue.push(it); }
-    else if (it[2]) { el.classList.add('out-left'); queue.push(it); }
-    else { el.classList.add('out-left'); chime('tap'); }
+    lockButtons(true); runTimer(); window.__remarkAt = performance.now();
+    var leaveTo = null;
+    if (packIt && it[2]) { packed++; leaveTo = 'out-bag'; var r = $('.bag span').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 10, 5); }
+    else if (packIt) { el.classList.add('bounce'); queue.push(it); leaveTo = 'out-left'; }
+    else if (it[2]) { queue.push(it); leaveTo = 'out-left'; }
+    else { leaveTo = 'out-left'; }
     $('#bagfill').style.width = (packed / NEED * 100) + '%'; $('#bagcount').textContent = packed + ' / ' + NEED + ' packed';
-    if (packed >= NEED) { packOn = false; $('#packit').disabled = $('#leave').disabled = true; setTimeout(finishPack, CONFIG.remarkSeconds * 1000); return; }
-    $('#packit').disabled = $('#leave').disabled = true;
-    setTimeout(function () { $('#packit').disabled = $('#leave').disabled = false; dealItem(); }, CONFIG.remarkSeconds * 1000);
+    setTimeout(function () {
+      window.__remarkHeld = performance.now() - window.__remarkAt;
+      $('#timer').classList.remove('run');
+      el.classList.remove('bounce'); el.classList.add(leaveTo);        // only now does the item leave
+      setTimeout(function () { if (packed >= NEED) { packOn = false; finishPack(); } else dealItem(); }, 500);
+    }, HOLD());
   }
   function startPack() {
     if (gates.pack || packOn) return; packOn = true; packed = 0; queue = ITEMS.slice(); $('#bagcount').textContent = '0 / ' + NEED + ' packed';
