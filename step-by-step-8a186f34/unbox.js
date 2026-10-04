@@ -143,28 +143,29 @@
   document.addEventListener('keydown', function (e) { if (screens.cards.hidden) return; if (e.key === 'ArrowRight' && !gated(idx)) goTo(idx + 1); if (e.key === 'ArrowLeft') goTo(idx - 1); });
 
   /* ---------------- 3b. Pack the camp bag ---------------- */
+  // [emoji, name, needed?, line if packed, line if left, picture, tease shown above it]
   var ITEMS = [
-    ['🧹', 'Broom', true, 'Packed. Camp dust has met its match.', 'Leave the broom? Madam, who will sweep the vibes?'],
-    ['🗡️', 'Cutlass', true, 'Packed. For grass. Only grass. We agreed.', 'No cutlass? The grass will laugh at you. Try again.', 'cutlass.jpg'],
-    ['👠', 'Heels', false, 'Heels? To do what, intimidate the mosquitoes? Leave them.', 'Correct. The camp ground is not a runway.'],
-    ['⚒️', 'Hoe', true, 'Packed. Fire Service by day, farmer by weekend.', 'No hoe? Who will clear that camp farm, your prayers?'],
-    ['⛏️', 'Shovel', true, 'Packed. Whatever they are digging, you will dig it faster.', 'No shovel? They will hand you a spoon.'],
-    ['📺', 'Netflix', false, 'No light, no Wi-Fi, no chill. Leave it.', 'Correct. The only series in camp is “wake up”.'],
-    ['🪖', 'Head pan', true, 'Packed. Bricklayer’s head pan: cement today, a personal statement tomorrow.', 'No head pan? You want to carry cement in your handbag?', 'headpan.jpg'],
-    ['🍂', 'Rake', true, 'Packed. The leaves will line up and apologise.', 'Leave the rake and the leaves win. Try again.', 'rake.jpg'],
-    ['🙋🏾‍♂️', 'Mayowa', false, 'Tried to fit in the bag. Didn’t. Sending texts instead.', 'Correct, I won’t fit. But I’m coming in spirit, daily.'],
-    ['🪣', 'Bucket', true, 'Packed. Five-star shower, camp edition.', 'No bucket? Bathing with what, confidence?'],
-    ['🔥', 'Cooking gas', true, 'Packed. Camp kitchen upgraded. Chef Sururah.', 'No gas? Firewood and tears, then.'],
-    ['🛒', 'Food items & groceries', true, 'Packed. Nobody is losing weight on my watch.', 'Leave the food? Camp food will humble you. Pack it.'],
-    ['🛌', 'Duvet', false, 'A duvet? The camp will provide a mat and vibes. Leave it.', 'Correct. Mat and vibes it is.'],
-    ['🍲', 'Semovita', true, 'Packed. Swallow secured. Egusi, you are next.', 'No Semovita? The eba people will mock you.', 'semovita.jpg'],
-    ['🌽', 'Yellow garri', true, 'Packed. Yellow garri: the official stress drink of camp.', 'No garri? Then what exactly will you “soak”?', 'garri.jpg'],
-    ['🔦', 'Torch', true, 'Packed. For finding your slippers at 4am.', 'No torch? 4am will find you first.'],
-    ['🍗', 'ChickWizz', true, 'Packed. ChickWizz, for the days camp food tries you.', 'No ChickWizz? Who hurt you?', 'chickwizz.jpg'],
-    ['💧', 'Eye drops', true, 'Packed. For the dust, the sun, and when camp makes you cry small.', 'No eye drops? Those drills will have you squinting till November.', 'eyedrops.jpg'],
-    ['🦟', 'Mosquito net', true, 'Packed. The mosquitoes have been told about you. They are scared.', 'No net? The mosquitoes have already said thank you.'],
-    ['🥾', 'Boots', true, 'Packed. Camp has never seen anybody march like this.', 'No boots? Those drills will humble your slippers.'],
-    ['🧴', 'Robb', true, 'Packed. For headache, chest, bites and heartbreak.', 'No Robb? Which Nigerian are you?', 'robb.jpg']
+    ['🧹', 'Broom', true, 'Packed! Sweep that camp till the dust goes zoom.', 'No broom? Then the dust will think it owns the room. Pack it.', '', 'A broom for the room, or a broom for the gloom?'],
+    ['🗡️', 'Cutlass', true, 'Packed. Grass only, please. Let’s keep it diplomatic.', 'No cutlass? The grass will grow back, loud and emphatic. Pack it.', 'cutlass.jpg', 'Cutlass in the bag: shiny, sharp, a little dramatic.'],
+    ['👠', 'Heels', false, 'Babe, it’s a drill, not a meeting about deals. Leave the heels.', 'Correct. That parade ground eats heels for meals.', '', 'Heels at camp? Let’s see how that feels.'],
+    ['⚒️', 'Hoe', false, 'Put it down. Camp has hoes lined up in a row.', 'Correct. Let it go. Camp provides the hoe.', 'hoe.jpg', 'A hoe? To go where, and dig what, though?'],
+    ['📺', 'Netflix', false, 'No light, no Wi-Fi, no chills. Leave it till after the drills.', 'Correct. The only show showing there is “Morning Drills”.', '', 'Netflix at camp? And who is paying the bills?'],
+    ['⛏️', 'Shovel', false, 'Put it down, ma’am. Camp has shovels. I’m the one who should grovel.', 'Correct. No shovel. Let them dig; you supervise from your hovel.', 'shovel.jpg', 'A shovel, so you can dig your own little hovel?'],
+    ['🪣', 'Bucket', true, 'Packed. Five-star shower, straight from the bucket.', 'No bucket? Bathing with what, your pocket? Pack the bucket.', '', 'Bucket: camp’s official jacuzzi. Don’t knock it.'],
+    ['🪖', 'Head pan', false, 'Put it down. Carrying cement was never part of the plan.', 'Correct. Leave the head pan to the bricklaying man.', 'headpan.jpg', 'A head pan? Madam, are you a bricklayer now, or a fan?'],
+    ['🔥', 'Cooking gas', true, 'Packed. Chef Sururah, cooking with class.', 'No gas? Firewood, smoke and tears. Let that pass. Pack it.', '', 'Cooking gas: because firewood is not first class.'],
+    ['🍂', 'Rake', false, 'Leave it, for heaven’s sake. Camp has rakes. That load is a mistake.', 'Correct. One less thing to carry, one less back to ache.', 'rake.jpg', 'A rake? For heaven’s sake?'],
+    ['🙋🏾‍♂️', 'Mayowa', false, 'I tried. Too tall. I’ll text you daily instead, guaranteed.', 'Correct. I won’t fit, but I’m coming in spirit, guaranteed.', '', 'And me? Do I fit in the bag? Let’s see.'],
+    ['🛒', 'Food items & groceries', true, 'Packed. Nobody is losing weight on my watch. These are necessities.', 'Leave the food? Camp jollof will test your abilities. Pack it.', '', 'Groceries: the true camp necessities.'],
+    ['🍲', 'Semovita', true, 'Packed. Semo secured. Every evening just got sweeter.', 'No Semo? Then swallow what, ma’am, a two-litre? Pack it.', 'semovita.jpg', 'Semovita, for the days camp food is bitter.'],
+    ['🛌', 'Duvet', false, 'Ma’am, it’s camp, not a hotel stay. Leave the duvet.', 'Correct. Mat and vibes, all the way.', '', 'A duvet? For a mat on the floor? Okay...'],
+    ['🌽', 'Yellow garri', true, 'Packed. Soak it, drink it, no hurry, no worry.', 'No garri? Then what will you soak when you’re in a hurry? Pack it.', 'garri.jpg', 'Yellow garri: camp’s official “don’t worry”.'],
+    ['🔦', 'Torch', true, 'Packed. No stubbing your toe at 4am on the porch.', 'No torch? At 4am the dark will win. Pack the torch.', '', 'Torch: for 4am drills on the porch.'],
+    ['🍗', 'ChickWizz', true, 'Packed. For the days camp food gives you a quiz.', 'No ChickWizz? Who hurt you? Pack it, this is serious biz.', 'chickwizz.jpg', 'ChickWizz: comfort food, that’s what it is.'],
+    ['💧', 'Eye drops', true, 'Packed. Clear eyes for the job, and for the occasional sob.', 'No drops? Dust and sun will gang up like a mob. Pack them.', 'eyedrops.jpg', 'Eye drops: for dust, sun and the occasional sob.'],
+    ['🦟', 'Mosquito net', true, 'Packed. The mosquitoes have been warned. They are very upset.', 'No net? The mosquitoes already said “thank you, pet”. Pack it.', '', 'Mosquito net: the best bodyguard you’ll get.'],
+    ['🥾', 'Boots', true, 'Packed. Camp has never seen anyone march in such cute boots.', 'No boots? The drills will humble your flip-flop roots. Pack them.', '', 'Boots: for drills, mud and salutes.'],
+    ['🧴', 'Robb', true, 'Packed. Every ache, every bite: Robb will rob.', 'No Robb? You’re Nigerian; that’s not an option. Pack the Robb.', 'robb.jpg', 'Robb: headache, chest, bites. It does the job.']
   ];
   var queue = [], cur = null, packed = 0, packOn = false, NEED = ITEMS.filter(function (i) { return i[2]; }).length;
   function dealItem() {
@@ -174,7 +175,8 @@
     var em = $('#item-emoji');
     if (cur[5]) em.innerHTML = '<img src="' + cur[5] + '" alt="">'; else em.textContent = cur[0];
     $('#item-name').textContent = cur[1];
-    $('#verdict').textContent = cur[2] === null ? '' : 'Pack it, or leave it?';
+    if (cur[6]) $('#campline').textContent = cur[6];
+    $('#verdict').textContent = 'Pack it, or leave it?';
   }
   function decide(packIt) {
     if (!cur || !packOn) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
@@ -195,7 +197,7 @@
   }
   function finishPack() {
     gates.pack = true; packOn = false; next.disabled = false;
-    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, hoe, shovel, head pan, rake, gas, groceries, Semovita, garri, ChickWizz, eye drops, the lot. Half of Abuja market, honestly. And me, in every message.</p>';
+    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, bucket, gas, groceries, Semo, garri, ChickWizz, eye drops, torch, net, boots and Robb. No head pan, no rake, no hoe, no shovel: camp can carry those. And me, in every message.</p>';
     chime('win'); var r = $('#packer').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 50, 8);
   }
   $('#packit').addEventListener('click', function () { decide(true); });
