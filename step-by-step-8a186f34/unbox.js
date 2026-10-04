@@ -158,8 +158,8 @@
     ['🙋🏾‍♂️', 'Mayowa', false, 'I tried. Too tall. I’ll text you daily instead, guaranteed.', 'Correct. I won’t fit, but I’m coming in spirit, guaranteed.', '', 'And me? Do I fit in the bag? Let’s see.'],
     ['🛒', 'Food items & groceries', true, 'Packed. Nobody is losing weight on my watch. These are necessities.', 'Leave the food? Camp jollof will test your abilities. Pack it.', '', 'Groceries: the true camp necessities.'],
     ['🍲', 'Semovita', true, 'Packed. Semo secured. Every evening just got sweeter.', 'No Semo? Then swallow what, ma’am, a two-litre? Pack it.', 'semovita.jpg', 'Semovita, for the days camp food is bitter.'],
-    ['🛌', 'Duvet', false, 'Ma’am, it’s camp, not a hotel stay. Leave the duvet.', 'Correct. Mat and vibes, all the way.', '', 'A duvet? For a mat on the floor? Okay...'],
-    ['🌽', 'Yellow garri', true, 'Packed. Soak it, drink it, no hurry, no worry.', 'No garri? Then what will you soak when you’re in a hurry? Pack it.', 'garri.jpg', 'Yellow garri: camp’s official “don’t worry”.'],
+    ['🛌', 'Duvet', true, 'Packed. When that camp cold comes to play, the duvet saves the day. 😂', 'Leave the duvet? Abuja nights will turn you to Harmattan soufflé. Pack it.', '', 'Abuja nights get cold, by the way...'],
+    ['🌽', 'Yellow garri', true, 'Packed. Hot water, one stir, and camp gets eba in a hurry. 😂', 'No garri? Then who will turn eba for the whole camp, Murphy? Pack it. 😂', 'garri.jpg', 'Yellow garri: to turn eba on camp, no worry. Just kidding. Or am I? 😂'],
     ['🔦', 'Torch', true, 'Packed. No stubbing your toe at 4am on the porch.', 'No torch? At 4am the dark will win. Pack the torch.', '', 'Torch: for 4am drills on the porch.'],
     ['🍗', 'ChickWizz', true, 'Packed. For the days camp food gives you a quiz.', 'No ChickWizz? Who hurt you? Pack it, this is serious biz.', 'chickwizz.jpg', 'ChickWizz: comfort food, that’s what it is.'],
     ['💧', 'Eye drops', true, 'Packed. Clear eyes for the job, and for the occasional sob.', 'No drops? Dust and sun will gang up like a mob. Pack them.', 'eyedrops.jpg', 'Eye drops: for dust, sun and the occasional sob.'],
@@ -197,7 +197,7 @@
   }
   function finishPack() {
     gates.pack = true; packOn = false; next.disabled = false;
-    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, bucket, gas, groceries, Semo, garri, ChickWizz, eye drops, torch, net, boots and Robb. No head pan, no rake, no hoe, no shovel: camp can carry those. And me, in every message.</p>';
+    $('#packer').innerHTML = '<div class="won" style="position:static;background:none;padding:10px 0;font-size:1.5rem">Bag packed. That camp is not ready for you.</div><p class="verdict" style="text-align:center">Broom, cutlass, bucket, gas, groceries, Semo, garri (for the camp eba 😂), ChickWizz, eye drops, torch, net, boots, duvet and Robb. No head pan, no rake, no hoe, no shovel: camp can carry those. And me, in every message.</p>';
     chime('win'); var r = $('#packer').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 50, 8);
   }
   $('#packit').addEventListener('click', function () { decide(true); });
