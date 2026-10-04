@@ -12,15 +12,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="style.css?v=9">
-<script src="unbox.js?v=9" defer></script>
+<link rel="stylesheet" href="style.css?v=10">
+<script src="unbox.js?v=10" defer></script>
 </head>
 <body>
 <canvas id="bg" aria-hidden="true"></canvas>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="songline" id="songline" aria-hidden="true"><i></i></div>
-<button id="sound" class="sound" type="button" aria-pressed="false" aria-label="Turn sound effects on">♪</button>
-<div class="song" id="song"><button class="song-btn" id="song-btn" type="button">▶ Play our song</button><div class="song-player" id="song-player" hidden></div></div>
+<audio id="theme" src="theme.mp3?v=1" preload="auto" loop playsinline></audio>
+<button id="sound" class="sound" type="button" aria-pressed="true" aria-label="Pause the song" hidden>♪</button>
 
 <main id="stage">
 

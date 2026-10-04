@@ -193,10 +193,3 @@ canvas#fx{z-index:5}
 /* song */
 .songline{position:fixed;top:0;left:0;right:0;height:3px;z-index:7;background:rgba(255,255,255,.08)}
 .songline i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));transition:width 1s linear}
-.song{position:fixed;top:14px;left:14px;z-index:6;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-.song-btn{border:1.5px solid rgba(255,255,255,.25);background:rgba(42,7,20,.55);color:var(--cream);font:800 .85rem var(--sans);border-radius:999px;padding:10px 14px;cursor:pointer;backdrop-filter:blur(6px)}
-.song-btn.on{color:var(--pink2)}
-.song-player{width:200px;height:113px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
-.song-player iframe{width:100%;height:100%;border:0;display:block}
-.song-player.mini{width:1px;height:1px;opacity:0;pointer-events:none;position:absolute}
-@media (max-width:420px){.song-player{width:170px;height:96px}}

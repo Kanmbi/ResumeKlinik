@@ -7,8 +7,7 @@
     campStart: '',                   // e.g. '2026-10-06' shows "Day 3 of 30" on the camp card; leave '' to hide it
     campDays: 30,
     heartsToCatch: 7,
-    youtubeId: 'o7FM4ZV-BAQ',          // Lana Del Rey, Young and Beautiful (official video)
-    songSeconds: 236,                // 3:56
+    songVolume: 0.7,                 // theme song volume, 0 to 1
     whatsapp: '2348081688328',       // where "Tell me you opened it" goes
     replyText: 'I opened it 🤍'
   };
@@ -19,42 +18,25 @@
   var screens = { lock: $('#lock'), box: $('#box'), cards: $('#cards'), done: $('#done') };
   function show(name) { Object.keys(screens).forEach(function (k) { screens[k].hidden = k !== name; }); window.scrollTo(0, 0); }
 
-  /* ---------------- Sound (tiny synthesised chimes, nothing to download) ---------------- */
-  var audio = { ctx: null, on: false };
-  var soundBtn = $('#sound');
-  function ensureCtx() { if (!audio.ctx) { var AC = window.AudioContext || window.webkitAudioContext; if (AC) audio.ctx = new AC(); } if (audio.ctx && audio.ctx.state === 'suspended') audio.ctx.resume(); }
-  function tone(freq, t0, dur, type, gain) {
-    if (!audio.on || !audio.ctx) return;
-    var o = audio.ctx.createOscillator(), g = audio.ctx.createGain();
-    o.type = type || 'sine'; o.frequency.value = freq;
-    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(gain || 0.18, t0 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    o.connect(g); g.connect(audio.ctx.destination); o.start(t0); o.stop(t0 + dur + 0.05);
-  }
-  function chime(kind) {
-    if (!audio.on) return; ensureCtx(); if (!audio.ctx) return;
-    var t = audio.ctx.currentTime;
-    if (kind === 'tap') { tone(660, t, 0.12, 'triangle', 0.12); }
-    else if (kind === 'open') { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, t + i * 0.09, 0.5, 'triangle', 0.16); }); }
-    else if (kind === 'catch') { tone(880, t, 0.1, 'sine', 0.1); tone(1320, t + 0.05, 0.12, 'sine', 0.08); }
-    else if (kind === 'win') { [659, 784, 988, 1319].forEach(function (f, i) { tone(f, t + i * 0.1, 0.4, 'triangle', 0.14); }); }
-    else if (kind === 'yes') { [523, 659, 784, 1047, 1319].forEach(function (f, i) { tone(f, t + i * 0.12, 0.9, 'sine', 0.16); tone(f / 2, t + i * 0.12, 0.9, 'triangle', 0.06); }); }
+  /* ---------------- Theme song: Young and Beautiful ----------------
+     Phones only allow sound after a tap, so it starts when she taps Open. */
+  var theme = $('#theme'), soundBtn = $('#sound'), songStarted = false;
+  function ensureCtx() {}
+  function chime() {}   // no click sounds: the song is the only sound
+  function startSong() {
+    if (songStarted) return; songStarted = true;
+    theme.volume = 0;
+    var p = theme.play(); if (p && p.catch) p.catch(function () { songStarted = false; });
+    var v = 0, fade = setInterval(function () { v = Math.min(CONFIG.songVolume, v + 0.05); theme.volume = v; if (v >= CONFIG.songVolume) clearInterval(fade); }, 120);
+    soundBtn.hidden = false;
+    (function tick() { if (theme.duration) $('#songline i').style.width = Math.min(100, theme.currentTime / theme.duration * 100) + '%'; setTimeout(tick, 1000); })();
   }
   soundBtn.addEventListener('click', function () {
-    audio.on = !audio.on; ensureCtx();
-    soundBtn.setAttribute('aria-pressed', String(audio.on)); soundBtn.setAttribute('aria-label', audio.on ? 'Turn sound off' : 'Turn sound on');
-    if (audio.on) chime('tap');
+    if (theme.paused) { theme.play(); soundBtn.setAttribute('aria-pressed', 'true'); soundBtn.setAttribute('aria-label', 'Pause the song'); }
+    else { theme.pause(); soundBtn.setAttribute('aria-pressed', 'false'); soundBtn.setAttribute('aria-label', 'Play the song'); }
   });
-
-  /* ---------------- Our song (official YouTube player, starts on her tap) ---------------- */
-  var songBtn = $('#song-btn'), songBox = $('#song-player'), songOn = false, songT0 = 0;
-  songBtn.addEventListener('click', function () {
-    if (!songOn) {
-      songOn = true; songT0 = Date.now(); songBox.hidden = false;
-      songBox.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + CONFIG.youtubeId + '?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="Young and Beautiful" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-      songBtn.textContent = '♪ Young and Beautiful'; songBtn.classList.add('on');
-      (function tick() { var p = Math.min(1, (Date.now() - songT0) / (CONFIG.songSeconds * 1000)); $('#songline i').style.width = (p * 100) + '%'; if (p < 1) setTimeout(tick, 1000); })();
-    } else { songBox.classList.toggle('mini'); songBtn.textContent = songBox.classList.contains('mini') ? '♪ Show the song' : '♪ Young and Beautiful'; }
-  });
+  // any first tap anywhere also starts it (in case the lock is switched off)
+  document.addEventListener('pointerdown', function first() { if (!screens.lock.hidden) return; startSong(); document.removeEventListener('pointerdown', first); });
 
   /* ---------------- Background hearts ---------------- */
   var bg = $('#bg'), bctx = bg.getContext('2d'), hearts = [];
@@ -102,7 +84,7 @@
   $('#lock-form').addEventListener('submit', function (e) {
     e.preventDefault(); ensureCtx();
     var ok = CONFIG.code.some(function (c) { return norm(c) === norm(code.value); });
-    if (ok) { chime('open'); show('box'); return; }
+    if (ok) { startSong(); show('box'); return; }
     tries++; code.classList.remove('shake'); void code.offsetWidth; code.classList.add('shake');
     hint.hidden = false;
     hint.textContent = tries === 1 ? 'Not that. Hint: it’s how we said we’d take it.' : 'It’s “step by step”. Type that, and I’ll let you in.';
