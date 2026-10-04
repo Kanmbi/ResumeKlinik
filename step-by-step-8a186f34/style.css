@@ -135,7 +135,7 @@ canvas#fx{z-index:5}
 .dots i.done{background:rgba(255,133,181,.7)}
 
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  *:not(.timer i),*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .merge .h3,.steps .fp,.mend .line-heal{opacity:1;stroke-dashoffset:0}
   .arena .fall{animation-duration:6s!important}
 }
@@ -195,3 +195,8 @@ canvas#fx{z-index:5}
 .songline i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));transition:width 1s linear}
 
 .verdict.say{font-weight:700;color:var(--ink)!important;animation:rise .35s var(--ease)}
+
+.timer{width:min(100%,260px);height:4px;border-radius:4px;background:transparent;overflow:hidden;margin:-4px 0 0}
+.timer i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--red));border-radius:4px}
+.timer.run i{animation:countdown linear forwards}
+@keyframes countdown{from{width:100%}to{width:0}}

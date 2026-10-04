@@ -177,12 +177,13 @@
     if (cur[5]) em.innerHTML = '<img src="' + cur[5] + '" alt="">'; else em.textContent = cur[0];
     $('#item-name').textContent = cur[1];
     if (cur[6]) $('#campline').textContent = cur[6];
-    $('#verdict').textContent = 'Pack it, or leave it?'; $('#verdict').classList.remove('say');
+    $('#verdict').textContent = 'Pack it, or leave it?'; $('#verdict').classList.remove('say'); $('#timer').classList.remove('run'); if (window.__remarkAt) window.__remarkHeld = performance.now() - window.__remarkAt;
   }
   function decide(packIt) {
     if (!cur || !packOn) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
     var right = packIt === it[2];
     var vd = $('#verdict'); vd.textContent = packIt ? it[3] : it[4]; vd.classList.remove('say'); void vd.offsetWidth; vd.classList.add('say');
+    var tm = $('#timer'), ti = $('#timer i'); tm.classList.remove('run'); void tm.offsetWidth; ti.style.animationDuration = CONFIG.remarkSeconds + 's'; tm.classList.add('run'); window.__remarkAt = performance.now();
     if (packIt && it[2]) { packed++; el.classList.add('out-bag'); chime('catch'); var r = $('.bag span').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 10, 5); }
     else if (packIt) { el.classList.add('bounce'); chime('tap'); queue.push(it); }
     else if (it[2]) { el.classList.add('out-left'); queue.push(it); }

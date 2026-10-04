@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Open me</title>
 <meta name="robots" content="noindex, nofollow, noarchive">
@@ -12,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="style.css?v=11">
-<script src="unbox.js?v=14" defer></script>
+<link rel="stylesheet" href="style.css?v=12">
+<script src="unbox.js?v=15" defer></script>
 </head>
 <body>
 <canvas id="bg" aria-hidden="true"></canvas>
@@ -104,6 +105,7 @@
         <p class="campline" id="campline">Somewhere in that camp there is grass that has no idea what is coming.</p>
         <div class="packer" id="packer">
           <div class="item" id="item"><span class="emoji" id="item-emoji">🧹</span><b id="item-name">Broom</b></div>
+          <div class="timer" id="timer" aria-hidden="true"><i></i></div>
           <p class="verdict" id="verdict">Pack what you need. Leave what you don't.</p>
           <div class="pack-btns"><button class="btn ghost dark" id="leave" type="button">Leave it</button><button class="btn" id="packit" type="button">Pack it</button></div>
           <div class="bag"><span>🎒</span><div class="bagbar"><i id="bagfill"></i></div><small id="bagcount">0 / 14 packed</small></div>
