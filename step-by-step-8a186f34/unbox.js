@@ -7,6 +7,7 @@
     campStart: '',                   // e.g. '2026-10-06' shows "Day 3 of 30" on the camp card; leave '' to hide it
     campDays: 30,
     heartsToCatch: 7,
+    remarkSeconds: 5,                // how long each packing remark stays before the next item
     songVolume: 0.7,                 // theme song volume, 0 to 1
     whatsapp: '2348144853570',       // where "Tell me you opened it" goes
     replyText: 'I opened it 🤍'
@@ -176,19 +177,20 @@
     if (cur[5]) em.innerHTML = '<img src="' + cur[5] + '" alt="">'; else em.textContent = cur[0];
     $('#item-name').textContent = cur[1];
     if (cur[6]) $('#campline').textContent = cur[6];
-    $('#verdict').textContent = 'Pack it, or leave it?';
+    $('#verdict').textContent = 'Pack it, or leave it?'; $('#verdict').classList.remove('say');
   }
   function decide(packIt) {
     if (!cur || !packOn) return; var it = cur, el = $('#item'); cur = null; ensureCtx();
     var right = packIt === it[2];
-    $('#verdict').textContent = packIt ? it[3] : it[4];
+    var vd = $('#verdict'); vd.textContent = packIt ? it[3] : it[4]; vd.classList.remove('say'); void vd.offsetWidth; vd.classList.add('say');
     if (packIt && it[2]) { packed++; el.classList.add('out-bag'); chime('catch'); var r = $('.bag span').getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 10, 5); }
     else if (packIt) { el.classList.add('bounce'); chime('tap'); queue.push(it); }
     else if (it[2]) { el.classList.add('out-left'); queue.push(it); }
     else { el.classList.add('out-left'); chime('tap'); }
     $('#bagfill').style.width = (packed / NEED * 100) + '%'; $('#bagcount').textContent = packed + ' / ' + NEED + ' packed';
-    if (packed >= NEED) { packOn = false; setTimeout(finishPack, 1400); return; }
-    setTimeout(dealItem, 1500);
+    if (packed >= NEED) { packOn = false; $('#packit').disabled = $('#leave').disabled = true; setTimeout(finishPack, CONFIG.remarkSeconds * 1000); return; }
+    $('#packit').disabled = $('#leave').disabled = true;
+    setTimeout(function () { $('#packit').disabled = $('#leave').disabled = false; dealItem(); }, CONFIG.remarkSeconds * 1000);
   }
   function startPack() {
     if (gates.pack || packOn) return; packOn = true; packed = 0; queue = ITEMS.slice(); $('#bagcount').textContent = '0 / ' + NEED + ' packed';
