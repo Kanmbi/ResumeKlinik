@@ -8,7 +8,7 @@
     campDays: 30,
     heartsToCatch: 7,
     songVolume: 0.7,                 // theme song volume, 0 to 1
-    whatsapp: '2348081688328',       // where "Tell me you opened it" goes
+    whatsapp: '2348144853570',       // where "Tell me you opened it" goes
     replyText: 'I opened it 🤍'
   };
 
